@@ -1,0 +1,37 @@
+# Python
+*.log
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Cache
+cache/
+.cache/
+*.pkl
+*.npy
+*.db
+*.index
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# Model files
+model2vec/
+*.bin
+*.safetensors
+
+# Database
+*.sqlite3
+
+# Media
+media/uploads/
