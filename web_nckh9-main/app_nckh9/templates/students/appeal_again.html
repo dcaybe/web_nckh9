@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thông báo - Sinh viên</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/student.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Sinh viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:student_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_score_rating' %}" class="menu-item">
+                <i class="fas fa-edit"></i>
+                <span>Chấm điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_show_point' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_appeal_again' %}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Khiếu nại điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_historic_fix' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử chỉnh sửa</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_rank' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>Xếp hạng rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>AI hỗ trợ</span>
+            </a>
+          
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Khiếu lại</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="appeal-container">
+                <div class="appeal-header">
+                    <h2>Gửi đơn khiếu nại điểm rèn luyện</h2>
+                    <p>Vui lòng điền đầy đủ thông tin bên dưới</p>
+                </div>
+
+                <form id="complaintForm" class="appeal-form">
+                    <div class="form-group">
+                        <label for="semesterSelect">Học kỳ:</label>
+                        <select id="semesterSelect" required>
+                            <option value="">Chọn học kỳ</option>
+                            <option value="20231">Học kỳ 1 năm 2023-2024</option>
+                            <option value="20232">Học kỳ 2 năm 2023-2024</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complaintType">Mục khiếu nại:</label>
+                        <select id="complaintType" name="complaintType" required>
+                            <option value="">Chọn mục khiếu nại</option>
+                            <option value="activityPoints">Điểm hoạt động</option>
+                            <option value="teacherEvaluation">Điểm đánh giá của giáo viên</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complaintReason">Lý do khiếu nại:</label>
+                        <textarea id="complaintReason" name="complaintReason" rows="8" required></textarea>
+                        <div class="character-count">
+                            <span id="currentLength">0</span>/<span id="maxLength">1000</span> ký tự
+                        </div>
+                    </div>
+
+                    <div class="form-group file-upload-container">
+                        <label for="attachment">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Tệp đính kèm minh chứng
+                        </label>
+                        <input type="file" id="attachment" name="attachment" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Hủy bỏ</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Gửi khiếu nại
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="appeal.js"></script>
+</body>
+
+</html>

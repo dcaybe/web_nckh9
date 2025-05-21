@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử hoạt động - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/teacher.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>QL Điểm RL</h2>
+            <p>Giáo viên</p>
+        </div>  
+        <div class="menu">
+            <a href="{% url 'app_nckh9:teacher_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_class_management' %}" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Quản lý lớp học</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_score_management' %}" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>Quản lý điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_analytics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        
+          
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Lịch sử hoạt động</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card filter-card">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Loại hoạt động:</label>
+                    <select id="actionType">
+                        <option value="all">Tất cả hoạt động</option>
+                        <option value="login">Đăng nhập</option>
+                        <option value="approval">Phê duyệt</option>
+                        <option value="edit">Chỉnh sửa</option>
+                        <option value="export">Xuất dữ liệu</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Từ ngày:</label>
+                    <input type="date" id="dateFrom">
+                </div>
+                <div class="filter-group">
+                    <label>Đến ngày:</label>
+                    <input type="date" id="dateTo">
+                </div>
+                <button class="btn filter-btn" onclick="filterActivities()">
+                    <i class="fas fa-filter"></i> Lọc
+                </button>
+            </div>
+        </div>
+
+        <div class="activity-list">
+            <div class="card">
+                <div class="table-container">
+                    <table class="activity-table">
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Người dùng</th>
+                                <th>Hoạt động</th>
+                                <th>Chi tiết</th>
+                                <th>IP</th>
+                                <th>Thiết bị</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>20/02/2024 15:30</td>
+                                <td>Nguyễn Văn A</td>
+                                <td><span class="badge approval">Phê duyệt</span></td>
+                                <td>Phê duyệt điểm rèn luyện lớp CNTT2</td>
+                                <td>192.168.1.100</td>
+                                <td>Chrome / Windows</td>
+                            </tr>
+                            <tr>
+                                <td>20/02/2024 14:25</td>
+                                <td>Trần Thị B</td>
+                                <td><span class="badge edit">Chỉnh sửa</span></td>
+                                <td>Cập nhật quy tắc chấm điểm</td>
+                                <td>192.168.1.101</td>
+                                <td>Firefox / MacOS</td>
+                            </tr>
+                            <tr>
+                                <td>20/02/2024 13:15</td>
+                                <td>Lê Văn C</td>
+                                <td><span class="badge login">Đăng nhập</span></td>
+                                <td>Đăng nhập hệ thống</td>
+                                <td>192.168.1.102</td>
+                                <td>Chrome / Android</td>
+                            </tr>
+                            <tr>
+                                <td>20/02/2024 11:45</td>
+                                <td>Phạm Thị D</td>
+                                <td><span class="badge export">Xuất dữ liệu</span></td>
+                                <td>Xuất báo cáo điểm rèn luyện HK1</td>
+                                <td>192.168.1.103</td>
+                                <td>Safari / MacOS</td>
+                            </tr>
+                            <tr>
+                                <td>20/02/2024 10:30</td>
+                                <td>Hoàng Văn E</td>
+                                <td><span class="badge approval">Phê duyệt</span></td>
+                                <td>Từ chối phê duyệt ĐRL sinh viên Nguyễn Văn X</td>
+                                <td>192.168.1.104</td>
+                                <td>Edge / Windows</td>
+                            </tr>
+                            <tr>
+                                <td>20/02/2024 09:15</td>
+                                <td>Nguyễn Thị F</td>
+                                <td><span class="badge edit">Chỉnh sửa</span></td>
+                                <td>Chỉnh sửa thông báo chung</td>
+                                <td>192.168.1.105</td>
+                                <td>Chrome / Windows</td>
+                            </tr>
+                            <tr>
+                                <td>19/02/2024 16:45</td>
+                                <td>Trần Văn G</td>
+                                <td><span class="badge export">Xuất dữ liệu</span></td>
+                                <td>Xuất danh sách sinh viên chưa nộp ĐRL</td>
+                                <td>192.168.1.106</td>
+                                <td>Firefox / Windows</td>
+                            </tr>
+                            <tr>
+                                <td>19/02/2024 15:30</td>
+                                <td>Lê Thị H</td>
+                                <td><span class="badge approval">Phê duyệt</span></td>
+                                <td>Phê duyệt hàng loạt ĐRL lớp CNTT1</td>
+                                <td>192.168.1.107</td>
+                                <td>Chrome / Windows</td>
+                            </tr>
+                            <tr>
+                                <td>19/02/2024 14:20</td>
+                                <td>Phạm Văn I</td>
+                                <td><span class="badge login">Đăng nhập</span></td>
+                                <td>Đăng nhập không thành công</td>
+                                <td>192.168.1.108</td>
+                                <td>Chrome / iOS</td>
+                            </tr>
+                            <tr>
+                                <td>19/02/2024 13:10</td>
+                                <td>Hoàng Thị K</td>
+                                <td><span class="badge edit">Chỉnh sửa</span></td>
+                                <td>Cập nhật quy định mới</td>
+                                <td>192.168.1.109</td>
+                                <td>Safari / iOS</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="btn-page" disabled><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn-page active">1</button>
+                        <button class="btn-page">2</button>
+                        <button class="btn-page">3</button>
+                        <button class="btn-page"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="activity-history.js" defer></script>
+</body>
+</html>

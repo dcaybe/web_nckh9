@@ -1,0 +1,251 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phê duyệt hàng loạt - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+    <script src="batch-approval.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <!-- Reuse sidebar structure from scoring-rules.html -->
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Phê duyệt hàng loạt</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="batch-filters">
+            <div class="filter-group">
+                <select id="facultyFilter" class="filter-select">
+                    <option value="">Tất cả Khoa</option>
+                    <option value="cntt">Công nghệ thông tin</option>
+                    <option value="ddt">Điện - Điện tử</option>
+                    <option value="ck">Cơ khí</option>
+                </select>
+                <select id="classFilter" class="filter-select">
+                    <option value="">Tất cả Lớp</option>
+                    <option value="cntt1">CNTT1</option>
+                    <option value="cntt2">CNTT2</option>
+                </select>
+                <select id="semesterFilter" class="filter-select">
+                    <option value="">Học kỳ</option>
+                    <option value="20231">Học kỳ 1 - 2023-2024</option>
+                    <option value="20232">Học kỳ 2 - 2023-2024</option>
+                </select>
+                <select id="statusFilter" class="filter-select">
+                    <option value="">Trạng thái</option>
+                    <option value="pending">Chờ phê duyệt</option>
+                    <option value="approved">Đã phê duyệt</option>
+                    <option value="rejected">Đã từ chối</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <button class="btn btn-primary" onclick="approveSelected()">
+                    <i class="fas fa-check"></i> Phê duyệt đã chọn
+                </button>
+                <button class="btn btn-danger" onclick="rejectSelected()">
+                    <i class="fas fa-times"></i> Từ chối đã chọn
+                </button>
+            </div>
+        </div>
+
+        <div class="batch-table-container">
+            <table class="batch-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                        </th>
+                        <th>MSSV</th>
+                        <th>Họ và tên</th>
+                        <th>Lớp</th>
+                        <th>Tổng điểm</th>
+                        <th>Xếp loại</th>
+                        <th>Trạng thái</th>
+                        <th>Thời gian nộp</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2020001</td>
+                        <td>Nguyễn Văn An</td>
+                        <td>CNTT1</td>
+                        <td>85</td>
+                        <td><span class="badge badge-success">Tốt</span></td>
+                        <td><span class="status-badge pending">Chờ duyệt</span></td>
+                        <td>20/02/2024 15:30</td>
+                        <td>
+                            <button class="btn-icon" onclick="viewDetails('2020001')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon approve" onclick="approveOne('2020001')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-icon reject" onclick="rejectOne('2020001')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2020002</td>
+                        <td>Trần Thị Bình</td>
+                        <td>CNTT1</td>
+                        <td>92</td>
+                        <td><span class="badge badge-success">Xuất sắc</span></td>
+                        <td><span class="status-badge pending">Chờ duyệt</span></td>
+                        <td>20/02/2024 14:45</td>
+                        <td>
+                            <button class="btn-icon" onclick="viewDetails('2020002')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon approve" onclick="approveOne('2020002')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-icon reject" onclick="rejectOne('2020002')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2020003</td>
+                        <td>Lê Văn Cường</td>
+                        <td>CNTT2</td>
+                        <td>78</td>
+                        <td><span class="badge badge-warning">Khá</span></td>
+                        <td><span class="status-badge approved">Đã duyệt</span></td>
+                        <td>19/02/2024 16:20</td>
+                        <td>
+                            <button class="btn-icon" onclick="viewDetails('2020003')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon approve" onclick="approveOne('2020003')" disabled>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-icon reject" onclick="rejectOne('2020003')" disabled>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2020004</td>
+                        <td>Phạm Thị Dung</td>
+                        <td>CNTT2</td>
+                        <td>65</td>
+                        <td><span class="badge badge-danger">Trung bình</span></td>
+                        <td><span class="status-badge rejected">Đã từ chối</span></td>
+                        <td>19/02/2024 10:15</td>
+                        <td>
+                            <button class="btn-icon" onclick="viewDetails('2020004')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon approve" onclick="approveOne('2020004')" disabled>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-icon reject" onclick="rejectOne('2020004')" disabled>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2020005</td>
+                        <td>Hoàng Văn Em</td>
+                        <td>CNTT1</td>
+                        <td>88</td>
+                        <td><span class="badge badge-success">Tốt</span></td>
+                        <td><span class="status-badge pending">Chờ duyệt</span></td>
+                        <td>20/02/2024 09:30</td>
+                        <td>
+                            <button class="btn-icon" onclick="viewDetails('2020005')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon approve" onclick="approveOne('2020005')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-icon reject" onclick="rejectOne('2020005')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">4</button>
+            <button class="page-btn">5</button>
+            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</body>
+</html>

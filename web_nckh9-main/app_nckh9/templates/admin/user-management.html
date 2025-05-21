@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý người dùng - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+    <script src="user-management.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Quản lý người dùng</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rules-header">
+            <div class="global-actions">
+                <button class="btn btn-primary" onclick="openAddUserModal()">
+                    <i class="fas fa-user-plus"></i> Thêm người dùng mới
+                </button>
+            </div>
+        </div>
+
+        <div class="user-filters card">
+            <div class="filter-group">
+                <select id="roleFilter" class="filter-select">
+                    <option value="">Tất cả vai trò</option>
+                    <option value="admin">Quản trị viên</option>
+                    <option value="teacher">Giáo vụ khoa</option>
+                    <option value="advisor">Cố vấn học tập</option>
+                    <option value="student">Sinh viên</option>
+                </select>
+                <select id="departmentFilter" class="filter-select">
+                    <option value="">Tất cả khoa</option>
+                    <option value="cntt">Công nghệ thông tin</option>
+                    <option value="ddt">Điện - Điện tử</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng..." class="search-input">
+                <button class="btn" onclick="applyFilters()">
+                    <i class="fas fa-filter"></i> Lọc
+                </button>
+            </div>
+        </div>
+
+        <div class="users-table-container card">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ và tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Khoa/Phòng ban</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <div class="pagination">
+                <!-- Pagination will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <h2><span id="modalTitle">Thêm người dùng mới</span></h2>
+            <form id="userForm" onsubmit="handleUserSubmit(event)">
+                <div class="form-group">
+                    <label for="userName">Họ và tên:</label>
+                    <input type="text" id="userName" name="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email:</label>
+                    <input type="email" id="userEmail" name="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Vai trò:</label>
+                    <select id="userRole" name="userRole" required>
+                        <option value="teacher">Giáo vụ khoa</option>
+                        <option value="advisor">Cố vấn học tập</option>
+                        <option value="student">Sinh viên</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userDepartment">Khoa/Phòng ban:</label>
+                    <select id="userDepartment" name="userDepartment" required>
+                        <option value="cntt">Công nghệ thông tin</option>
+                        <option value="ddt">Điện - Điện tử</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-cancel" onclick="closeUserModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Permissions Modal -->
+    <div id="permissionsModal" class="modal">
+        <div class="modal-content">
+            <h2>Phân quyền người dùng</h2>
+            <div class="permissions-list">
+                <!-- Permissions will be populated by JavaScript -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="savePermissions()">Lưu thay đổi</button>
+                <button class="btn btn-cancel" onclick="closePermissionsModal()">Hủy</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

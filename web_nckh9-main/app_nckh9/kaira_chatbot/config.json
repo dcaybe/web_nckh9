@@ -1,0 +1,19 @@
+{
+    "doc_folder": "doc/",
+    "model_folder": "model2vec/",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "cache_dir": "cache/",
+    "top_k": 5,
+    "chunk_size": 800,
+    "min_text_length": 30,
+    "max_workers": 8,
+    "faiss_nlist": 10,
+    "conversation_db": "cache/conversations.db",
+    "max_context_messages": 5,
+    "llm_cache_size": 1000,
+    "batch_size": 64,
+    "embedding_cache_size": 10000,
+    "embedding_cache_file": "cache/embedding_cache.pkl",
+    "retry_attempts": 3,
+    "retry_delay": 1
+}

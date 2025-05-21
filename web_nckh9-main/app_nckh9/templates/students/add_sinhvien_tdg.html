@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm đánh giá điểm rèn luyện</title>
+    <link rel="stylesheet" href="{% static 'css/student.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Admin</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'app_nckh9:view_score_rating' %}" class="menu-item">
+                <i class="fas fa-list"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Thêm đánh giá điểm rèn luyện</h1>
+            </div>
+        </div>
+
+        <div class="content">
+            <form method="POST" enctype="multipart/form-data" class="add-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>Mã sinh viên:</label>
+                    <input type="number" name="maSV" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Tên sinh viên:</label>
+                    <input type="text" name="tenSV" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Lớp:</label>
+                    <input type="text" name="lopSV" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Ngày sinh:</label>
+                    <input type="date" name="dob" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Khoa:</label>
+                    <input type="text" name="khoaSV" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Khóa học:</label>
+                    <input type="number" name="khoaHoc" required class="form-control">
+                </div>
+
+                <!-- Các trường điểm rèn luyện -->
+                <div class="card">
+                    <h3>Điểm học tập và nghiên cứu khoa học</h3>
+                    <div class="form-group">
+                        <label>Kết quả học tập:</label>
+                        <select name="kqHocTap" class="form-control">
+                            <option value="30">Điểm TBCHT ≥ 3,6 (30đ)</option>
+                            <option value="25">Điểm TBCHT từ 3,2 đến 3,59 (25đ)</option>
+                            <option value="20">Điểm TBCHT từ 2,5 đến 3,19 (20đ)</option>
+                            <option value="15">Điểm TBCHT từ 2,0 đến 2,49 (15đ)</option>
+                            <option value="10">Điểm TBCHT < 2,0 (10đ)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Điểm NCKH:</label>
+                        <select name="diemNCKH" class="form-control">
+                            <option value="10">Đạt giải NCKH cấp Bộ (10đ)</option>
+                            <option value="8">Đạt giải NCKH cấp Trường (8đ)</option>
+                            <option value="6">Đạt giải NCKH khác (6đ)</option>
+                            <option value="5">Tham gia NCKH (5đ)</option>
+                            <option value="0">Không tham gia (0đ)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="koDungPhao" class="form-check-input">
+                        <label>Không vi phạm quy chế thi, kiểm tra (+3đ)</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="koDiHocMuon" class="form-check-input">
+                        <label>Không đi học muộn (+2đ)</label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Nội quy và sinh hoạt</h3>
+                    <div class="form-check">
+                        <input type="checkbox" name="koVPKL" class="form-check-input">
+                        <label>Không vi phạm kỷ luật (+10đ)</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Điểm công dân sinh viên:</label>
+                        <select name="diemCDSV" class="form-control">
+                            <option value="15">Điểm bài thu hoạch ≥ 90 (15đ)</option>
+                            <option value="10">Điểm từ 65 đến 89 (10đ)</option>
+                            <option value="5">Điểm < 65 (5đ)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Hoạt động và thành tích</h3>
+                    <div class="form-check">
+                        <input type="checkbox" name="thamgiaDayDu" class="form-check-input">
+                        <label>Tham gia đầy đủ các hoạt động (+13đ)</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Thành tích hoạt động:</label>
+                        <select name="thanhtichHoatDong" class="form-control">
+                            <option value="5">Cấp tỉnh, thành phố trở lên (5đ)</option>
+                            <option value="3">Cấp trường (3đ)</option>
+                            <option value="0">Không có thành tích (0đ)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Minh chứng</h3>
+                    {% for i in "1234567"|make_list %}
+                    <div class="form-group">
+                        <label>Minh chứng {{i}}:</label>
+                        <input type="file" name="anhminhchung{{i}}" class="form-control">
+                        <textarea name="ghichu{{i}}" placeholder="Ghi chú minh chứng {{i}}" class="form-control"></textarea>
+                    </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label>Ghi chú bổ sung:</label>
+                        <textarea name="ghichu8" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lưu đánh giá</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .add-form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-check {
+            margin: 10px 0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+    </style>
+</body>
+</html>

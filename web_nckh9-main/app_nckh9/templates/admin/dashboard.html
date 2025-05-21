@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giáo vụ khoa - Hệ thống Trang chủ</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+    
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+     
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Trang quản lý Giáo vụ khoa</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>{{ user.get_full_name }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="user-dropdown">
+                    <a href="{% url 'app_nckh9:admin_user_management' %}">
+                        <i class="fas fa-user-cog"></i> Thông tin cá nhân
+                    </a>
+                    <a href="{% url 'app_nckh9:reset_password' %}">
+                        <i class="fas fa-key"></i> Đổi mật khẩu
+                    </a>
+                    <a href="{% url 'app_nckh9:logout' %}">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card stats-card">
+                <h2><i class="fas fa-chart-bar"></i> Thống kê tổng quan</h2>
+                <div class="stats-display">
+                    <div class="stat-item">
+                        <h3>Sinh viên đã chấm</h3>
+                        <p>{{ stats.scored_students }}/{{ stats.total_students }}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Chờ phê duyệt</h3>
+                        <p>{{ stats.pending_approvals }}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Điểm TB toàn khoa</h3>
+                        <p>{{ stats.average_score }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card ai-insights">
+                <h2><i class="fas fa-robot"></i> Gợi ý từ AI</h2>
+                <div class="ai-recommendations">
+                    {% for insight in ai_insights %}
+                    <div class="recommendation-item">
+                        <i class="{{ insight.icon }}"></i>
+                        <p>{{ insight.message }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card quick-actions">
+                <h2><i class="fas fa-bolt"></i> Thao tác nhanh</h2>
+                <div class="action-buttons">
+                    <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="btn">
+                        <i class="fas fa-check-double"></i> Phê duyệt hàng loạt
+                    </a>
+                    <a href="{% url 'app_nckh9:admin_statistics' %}" class="btn">
+                        <i class="fas fa-file-export"></i> Xuất báo cáo
+                    </a>
+                    <a href="{% url 'app_nckh9:admin_sync' %}" class="btn">
+                        <i class="fas fa-sync"></i> Đồng bộ dữ liệu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/admin/dashboard.js' %}"></script>
+</body>
+</html>

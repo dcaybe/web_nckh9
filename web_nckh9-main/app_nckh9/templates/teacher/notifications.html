@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thông báo - Hệ thống Quản lý điểm rèn luyện</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/teacher.css' %}" rel="stylesheet">
+    <script src="notifications.js" defer></script>
+    <meta name="theme-color" content="#2563eb">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+</head>
+<body>
+    <!-- Common sidebar template for all teacher HTML files -->
+<div class="sidebar">
+    <div class="logo">
+        <h2>Hệ thống QL Điểm RL</h2>
+        <p>Giáo viên</p>
+    </div>
+    <div class="menu">
+        <a href="{% url 'app_nckh9:teacher_dashboard' %}" class="menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Trang chủ</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_class_management' %}" class="menu-item">
+            <i class="fas fa-users"></i>
+            <span>Quản lý lớp học</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_score_management' %}" class="menu-item">
+            <i class="fas fa-tasks"></i>
+            <span>Quản lý điểm rèn luyện</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_analytics' %}" class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Thống kê & Báo cáo</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_notifications' %}" class="menu-item">
+            <i class="fas fa-bell"></i>
+            <span>Quản lý thông báo</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_activity_history' %}" class="menu-item">
+            <i class="fas fa-history"></i>
+            <span>Lịch sử hoạt động</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_ai_assistant' %}" class="menu-item">
+            <i class="fas fa-robot"></i>
+            <span>AI Hỗ trợ</span>
+        </a>
+    
+      
+    </div>
+</div>
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Quản lý thông báo </h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <!-- <img src="avatar-placeholder.jpg" alt="Avatar" class="avatar"> -->
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="notifications-container">
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-bell"></i></div>
+                    <div class="stat-info">
+                        <h3>Tổng Quản lý thông báo</h3>
+                        <div class="stat-number">24</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <h3>Đang chờ</h3>
+                        <div class="stat-number">5</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <h3>Đã hoàn thành</h3>
+                        <div class="stat-number">16</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon danger"><i class="fas fa-exclamation-circle"></i></div>
+                    <div class="stat-info">
+                        <h3>Chưa đọc</h3>
+                        <div class="stat-number">3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Notifications List -->
+            <div class="card notifications-list">
+                <div class="notification-tabs">
+                    <button class="tab-btn active" data-tab="all">
+                        <i class="fas fa-list"></i> Tất cả
+                    </button>
+                    <button class="tab-btn" data-tab="unread">
+                        <i class="fas fa-envelope"></i> Chưa đọc
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="tab-btn" data-tab="important">
+                        <i class="fas fa-star"></i> Quan trọng
+                    </button>
+                    <button class="tab-btn" data-tab="scheduled">
+                        <i class="fas fa-calendar"></i> Đã lên lịch
+                    </button>
+                    <div class="header-right">
+                        <button class="btn btn-primary" id="createNotificationBtn">
+                            <i class="fas fa-plus"></i> Tạo thông báo mới
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifications Items Container -->
+                <div class="notification-items" id="notificationsList">
+                    <template id="notification-template">
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i></i>
+                            </div>
+                            <div class="notification-content">
+                                <div class="notification-header">
+                                    <h4></h4>
+                                    <div class="notification-meta">
+                                        <span class="status-badge"></span>
+                                        <span class="date"></span>
+                                    </div>
+                                </div>
+                                <div class="notification-body">
+                                    <p class="content"></p>
+                                    <div class="targets">
+                                        <span class="target-label">Đối tượng:</span>
+                                        <div class="target-list"></div>
+                                    </div>
+                                </div>
+                                <div class="notification-footer">
+                                    <div class="stats">
+                                        <span class="views"><i class="fas fa-eye"></i> <span class="count">0</span> lượt xem</span>
+                                        <span class="responses"><i class="fas fa-check-circle"></i> <span class="count">0</span> phản hồi</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn btn-icon edit" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-icon delete" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="notification-item unread important">
+                        <div class="notification-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h4>Thông báo chấm điểm rèn luyện học kỳ 1</h4>
+                                <div class="notification-meta">
+                                    <span class="status-badge important">Quan trọng</span>
+                                    <span class="date">2 giờ trước</span>
+                                </div>
+                            </div>
+                            <div class="notification-body">
+                                <p>Đề nghị sinh viên hoàn thành chấm điểm rèn luyện trước ngày 15/12/2023</p>
+                                <div class="targets">
+                                    <span class="target-label">Đối tượng:</span>
+                                    <div class="target-list">
+                                        <span class="target-badge">CNTT2021</span>
+                                        <span class="target-badge">CNTT2022</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item unread warning">
+                        <div class="notification-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h4>Nhắc nhở thời hạn nộp minh chứng</h4>
+                                <div class="notification-meta">
+                                    <span class="status-badge warning">Cần xử lý</span>
+                                    <span class="date">1 ngày trước</span>
+                                </div>
+                            </div>
+                            <div class="notification-body">
+                                <p>Thời hạn nộp minh chứng hoạt động sẽ kết thúc trong 2 ngày</p>
+                                <div class="targets">
+                                    <span class="target-label">Đối tượng:</span>
+                                    <div class="target-list">
+                                        <span class="target-badge">Tất cả lớp</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item scheduled">
+                        <div class="notification-icon scheduled">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h4>Lịch họp đánh giá điểm rèn luyện</h4>
+                                <div class="notification-meta">
+                                    <span class="status-badge scheduled">Đã lên lịch</span>
+                                    <span class="date">20/12/2023 14:00</span>
+                                </div>
+                            </div>
+                            <div class="notification-body">
+                                <p>Họp đánh giá điểm rèn luyện học kỳ 1 năm học 2023-2024</p>
+                                <div class="targets">
+                                    <span class="target-label">Địa điểm:</span>
+                                    <div class="target-list">
+                                        <span class="target-badge">Phòng họp A1.01</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item unread important">
+                        <div class="notification-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h4>Thông báo thay đổi quy định điểm rèn luyện</h4>
+                                <div class="notification-meta">
+                                    <span class="status-badge important">Quan trọng</span>
+                                    <span class="date">3 giờ trước</span>
+                                </div>
+                            </div>
+                            <div class="notification-body">
+                                <p>Cập nhật quy định mới về cách tính điểm rèn luyện từ học kỳ 2</p>
+                                <div class="targets">
+                                    <span class="target-label">Đối tượng:</span>
+                                    <div class="target-list">
+                                        <span class="target-badge">Toàn trường</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item scheduled">
+                        <div class="notification-icon scheduled">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h4>Kế hoạch đánh giá điểm rèn luyện học kỳ 2</h4>
+                                <div class="notification-meta">
+                                    <span class="status-badge scheduled">Đã lên lịch</span>
+                                    <span class="date">15/03/2024</span>
+                                </div>
+                            </div>
+                            <div class="notification-body">
+                                <p>Thông báo kế hoạch đánh giá điểm rèn luyện học kỳ 2 năm học 2023-2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Pagination -->
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="btn-page" disabled><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn-page active">1</button>
+                        <button class="btn-page">2</button>
+                        <button class="btn-page">3</button>
+                        <button class="btn-page"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simplified Create/Edit Modal -->
+        <div class="modal" id="notificationModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Tạo Quản lý thông báo mới</h2>
+                    <button class="btn-close" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="notificationForm">
+                    <div class="form-group">
+                        <label for="notificationTitle">Tiêu đề Quản lý thông báo</label>
+                        <input type="text" id="notificationTitle" name="title" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notificationType">Loại Quản lý thông báo</label>
+                        <select id="notificationType" name="type" class="form-control" required>
+                            <option value="announcement">Quản lý thông báo chung</option>
+                            <option value="deadline">Thời hạn nộp</option>
+                            <option value="reminder">Nhắc nhở</option>
+                            <option value="warning">Cảnh báo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notificationContent">Nội dung</label>
+                        <textarea id="notificationContent" name="content" class="form-control" rows="5" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="startDateTime">Thời gian bắt đầu</label>
+                            <input type="datetime-local" id="startDateTime" name="startDateTime" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group col">
+                            <label for="endDateTime">Thời gian kết thúc</label>
+                            <input type="datetime-local" id="endDateTime" name="endDateTime" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group target-selection">
+                        <label>Đối tượng nhận Quản lý thông báo</label>
+                        <div class="target-container">
+                            <div class="target-options">
+                                <div class="target-group">
+                                    <h4><i class="fas fa-users"></i> Lớp học</h4>
+                                    <div class="checkbox-grid">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="class_IT001" name="target_class" value="IT001">
+                                            <label for="class_IT001">IT001 - Công nghệ thông tin 1</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="class_IT002" name="target_class" value="IT002">
+                                            <label for="class_IT002">IT002 - Công nghệ thông tin 2</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="class_IT003" name="target_class" value="IT003">
+                                            <label for="class_IT003">IT003 - Công nghệ thông tin 3</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="target-group">
+                                    <h4><i class="fas fa-layer-group"></i> Khóa học</h4>
+                                    <div class="checkbox-grid">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="year_2023" name="target_year" value="2023">
+                                            <label for="year_2023">Khóa 2023</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="year_2022" name="target_year" value="2022">
+                                            <label for="year_2022">Khóa 2022</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="target-actions">
+                                <button type="button" class="btn btn-outline" onclick="selectAllTargets()">
+                                    <i class="fas fa-check-square"></i> Chọn tất cả
+                                </button>
+                                <button type="button" class="btn btn-outline" onclick="clearAllTargets()">
+                                    <i class="fas fa-square"></i> Bỏ chọn tất cả
+                                </button>
+                            </div>
+                        </div>
+                        <small class="form-text">Chọn một hoặc nhiều đối tượng để gửi Quản lý thông báo</small>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="sendEmail" name="sendEmail">
+                            <label for="sendEmail">Gửi Quản lý thông báo qua email</label>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Lưu Quản lý thông báo
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toastNotification"></div>
+    </div>
+</body>
+</html>

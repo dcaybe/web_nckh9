@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Quản lý Điểm Rèn Luyện - HUMG</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #1976D2;
+            --background-color: #F5F7FA;
+            --text-color: #2C3E50;
+        }
+        
+        body {
+            background: var(--background-color);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: linear-gradient(180deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            padding: 0.8rem 0;
+        }
+        
+        .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .main-container {
+            min-height: calc(100vh - 72px);
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .main-title {
+            color: var(--secondary-color);
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .lead {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 0 0 0 100%;
+            opacity: 0.1;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-color);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .nav-pills .nav-link {
+            color: var(--text-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .form-control {
+            height: 48px;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        .input-group-text {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            width: 48px;
+            justify-content: center;
+            color: var(--text-color);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-light {
+            background: white;
+            border: 1px solid #e0e0e0;
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-light:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+        <div class="container-fluid px-4">
+            {% if user.is_authenticated %}
+            <div class="navbar-nav ms-auto">
+                {% if user.is_staff %}
+                <a class="nav-link" href="{% url 'app_nckh9:admin_dashboard' %}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                {% elif user.is_teacher %}
+                <a class="nav-link" href="{% url 'app_nckh9:teacher_dashboard' %}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                {% else %}
+                <a class="nav-link" href="{% url 'app_nckh9:student_dashboard' %}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                {% endif %}
+                <a class="nav-link" href="{% url 'app_nckh9:logout' %}">
+                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="container">
+            <div class="row align-items-center gy-4">
+                <div class="col-lg-6">
+                    <div class="pe-lg-4">
+                        <h1 class="main-title">Hệ thống Quản lý Điểm Rèn Luyện</h1>
+                        <p class="lead">Trường Đại học Mỏ - Địa Chất</p>
+
+                        <div class="stats-container">
+                            <div class="stat-item">
+                                <i class="fas fa-users stat-icon"></i>
+                                <div class="stat-number">1000+</div>
+                                <div class="stat-label">Sinh viên</div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-chalkboard-teacher stat-icon"></i>
+                                <div class="stat-number">100+</div>
+                                <div class="stat-label">Giảng viên</div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-graduation-cap stat-icon"></i>
+                                <div class="stat-number">500+</div>
+                                <div class="stat-label">Học vị cao</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="content-box">
+                        {% if error_message %}
+                        <div class="alert alert-danger d-flex align-items-center">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            {{ error_message }}
+                        </div>
+                        {% endif %}
+
+                        <ul class="nav nav-pills nav-justified mb-4">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#login-tab" data-bs-toggle="pill">
+                                    <i class="fas fa-user-circle me-2"></i>Đăng nhập
+                                </a>
+                            </li>
+                            <li class="nav-item ms-3">
+                                <a class="nav-link" href="#ms-login-tab" data-bs-toggle="pill">
+                                    <i class="fab fa-microsoft me-2"></i>Microsoft
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="login-tab">
+                                <form method="post" action="{% url 'app_nckh9:login' %}">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                            <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="remember-me">
+                                            <label class="form-check-label" for="remember-me">Ghi nhớ</label>
+                                        </div>
+                                        <a href="{% url 'app_nckh9:reset_password' %}">Quên mật khẩu?</a>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 mb-4">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade" id="ms-login-tab">
+                                <div class="text-center py-4">
+                                    <i class="fab fa-microsoft fa-4x mb-4" style="color: var(--primary-color);"></i>
+                                    <h4 class="mb-3">Đăng nhập với Microsoft</h4>
+                                    <p class="text-muted mb-4">Dành cho thành viên trường HUMG</p>
+                                    <button class="btn btn-primary w-100">
+                                        <i class="fab fa-microsoft me-2"></i>Tiếp tục với Microsoft
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-light">
+                                    <i class="fas fa-question-circle me-2"></i>Hỗ trợ
+                                </a>
+                                <a href="#" class="btn btn-light ms-2">
+                                    <i class="fas fa-envelope me-2"></i>Liên hệ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/homepage/index.js' %}"></script>
+</body>
+</html>

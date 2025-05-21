@@ -1,0 +1,454 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinh viên - Đánh giá KQRL</title>
+    <link rel="stylesheet" href="{% static 'css/student.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Sinh viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:student_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_score_rating' %}" class="menu-item">
+                <i class="fas fa-edit"></i>
+                <span>Chấm điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_show_point' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_appeal_again' %}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Khiếu nại điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_historic_fix' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử chỉnh sửa</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_rank' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>Xếp hạng rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>AI hỗ trợ</span>
+            </a>
+          
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Chấm điểm rèn luyện</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                  
+                    <span>{{ student.tenSV }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <div class="rules-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="section-title-content">
+                            I. Đánh giá về ý thức và kết quả học tập
+                            <span class="points">(0 - 30 điểm)</span>
+                        </div>
+                    </h2>
+                </div>
+
+                <div class="rule-section">
+                    <div class="sub-section">
+                        <h4>1. Kết quả học tập:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="radio" name="kqHocTap" value="30">
+                                <span class="checkbox-label">Điểm TBCHT ≥ 3,6</span>
+                                <span class="points">30đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="kqHocTap" value="25">
+                                <span class="checkbox-label">Điểm TBCHT từ 3,2 đến 3,59</span>
+                                <span class="points">25đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="kqHocTap" value="20">
+                                <span class="checkbox-label">Điểm TBCHT từ 2,5 đến 3,19</span>
+                                <span class="points">20đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="kqHocTap" value="15">
+                                <span class="checkbox-label">Điểm TBCHT từ 2,0 đến 2,49</span>
+                                <span class="points">15đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="kqHocTap" value="10">
+                                <span class="checkbox-label">Điểm TBCHT < 2,0</span>
+                                <span class="points">10đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>2. Nghiên cứu khoa học, thi Olympic:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemNCKH" value="10">
+                                <span class="checkbox-label">Đạt giải NCKH cấp Bộ</span>
+                                <span class="points">10đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemNCKH" value="8">
+                                <span class="checkbox-label">Đạt giải NCKH cấp Trường</span>
+                                <span class="points">8đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemNCKH" value="6">
+                                <span class="checkbox-label">Đạt giải NCKH khác</span>
+                                <span class="points">6đ</span>
+                            </label>    
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemNCKH" value="5">
+                                <span class="checkbox-label">Tham gia NCKH</span>
+                                <span class="points">5đ</span>
+                            </label>
+                        </div>
+                        <div class="file-upload">
+                            <label>Minh chứng NCKH:</label>
+                            <input type="file" name="anhminhchung1" accept="image/*,.pdf">
+                            <span class="file-hint">*Chấp nhận file ảnh hoặc PDF (tối đa 5MB)</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>c) Việc thực hiện nội quy học tập, quy chế thi, kiểm tra:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koDungPhao" value="3">
+                                <span class="checkbox-label">Không vi phạm quy chế thi, kiểm tra</span>
+                                <span class="points">3đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koDiHocMuon" value="2">
+                                <span class="checkbox-label">Đi học đầy đủ, đúng giờ</span>
+                                <span class="points">2đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <div class="checkbox-list negative">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="penalty" value="-15">
+                                <span class="checkbox-label">Đã đăng ký, nhưng bỏ không tham tham gia nghiên cứu khoa học, thi Olympic, Robocon và các cuộc thi khác tương đương</span>
+                                <span class="points">-15đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="penalty" value="-2">
+                                <span class="checkbox-label">Không đi học, đi không đúng giờ</span>
+                                <span class="points">-2đ/buổi</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="section-title-content">
+                            II. Đánh giá về ý thức và kết quả chấp hành nội quy, quy chế của Trường
+                            <span class="points">(0 - 25 điểm)</span>
+                        </div>
+                    </h2>
+                </div>
+
+                <div class="rule-section">
+                    <div class="sub-section">
+                        <h4>a) Chấp hành nội quy:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koVPKL" value="10">
+                                <span class="checkbox-label">Chấp hành tốt nội quy, quy chế của Trường, không vi phạm kỷ luật</span>
+                                <span class="points">10đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Kết quả Tuần sinh hoạt công dân sinh viên:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemCDSV" value="15">
+                                <span class="checkbox-label">Điểm bài thu hoạch ≥ 90</span>
+                                <span class="points">15đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemCDSV" value="10">
+                                <span class="checkbox-label">Điểm bài thu hoạch từ 65 đến 89 điểm</span>
+                                <span class="points">10đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="diemCDSV" value="5">
+                                <span class="checkbox-label">Điểm bài thu hoạch < 65 điểm</span>
+                                <span class="points">5đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <div class="checkbox-list negative">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koThamgiaDaydu" value="-10">
+                                <span class="checkbox-label">Không tham gia học tập đầy đủ, nghiêm túc nghị quyết, nội quy, quy chế, tuần sinh hoạt công dân sinh viên</span>
+                                <span class="points">-10đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koDeoTheSV" value="-5">
+                                <span class="checkbox-label">Không đeo thẻ sinh viên trong khuôn viên Trường</span>
+                                <span class="points">-5đ/lần</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koSHL" value="-5">
+                                <span class="checkbox-label">Không tham gia các buổi sinh hoạt lớp, họp, hội nghị, giao ban, tập huấn và các hoạt động khác khi Nhà trường yêu cầu</span>
+                                <span class="points">-5đ/lần</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="dongHPmuon" value="-10">
+                                <span class="checkbox-label">Đóng học phí không đúng quy định trong học kỳ</span>
+                                <span class="points">-10đ</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        <div class="section-title-content">
+                            III. Đánh giá về ý thức và kết quả tham gia các hoạt động chính trị, xã hội, văn hoá, văn nghệ, thể thao, phòng chống các tệ nạn xã hội
+                            <span class="points">(0 - 20 điểm)</span>
+                        </div>
+                    </h2>
+                </div>
+
+                <div class="rule-section">
+                    <div class="sub-section">
+                        <h4>a) Tham gia hoạt động:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="thamgiaDayDu" value="13">
+                                <span class="checkbox-label">Tham gia đầy đủ các hoạt động, sinh hoạt do Trường, Khoa, Lớp, Đoàn TN, Hội SV tổ chức</span>
+                                <span class="points">13đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Thành tích hoạt động:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="radio" name="thanhtichHoatDong" value="5">
+                                <span class="checkbox-label">Cấp tỉnh, thành phố trở lên</span>
+                                <span class="points">5đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="thanhtichHoatDong" value="3">
+                                <span class="checkbox-label">Cấp trường</span>
+                                <span class="points">3đ</span>
+                            </label>
+                        </div>
+                        <div class="file-upload">
+                            <label>Minh chứng thành tích:</label>
+                            <input type="file" name="anhminhchung2" accept="image/*,.pdf">
+                            <span class="file-hint">*Chấp nhận file ảnh hoặc PDF (tối đa 5MB)</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>c) Hoạt động tư vấn:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="thamgiaTVTS" value="2">
+                                <span class="checkbox-label">Tham gia các hoạt động tư vấn tuyển sinh (có xác nhận của phòng QHCC&DN)</span>
+                                <span class="points">2đ/lần</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <div class="checkbox-list negative">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="koThamgiaDaydu2" value="-5">
+                                <span class="checkbox-label">Không tham gia hoạt động, sinh hoạt khi được phân công</span>
+                                <span class="points">-5đ/lần</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="viphamVanHoaSV" value="-5">
+                                <span class="checkbox-label">Vi phạm Quy định về văn hoá học đường cho sinh viên</span>
+                                <span class="points">-5đ/lần</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i>
+                        <div class="section-title-content">
+                            IV. Đánh giá về phẩm chất công dân và quan hệ công đồng
+                            <span class="points">(0 - 15 điểm)</span>
+                        </div>
+                    </h2>
+                </div>
+
+                <div class="rule-section">
+                    <div class="sub-section">
+                        <h4>a) Ý thức công dân:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="chaphanhDang" value="10">
+                                <span class="checkbox-label">Tích cực tham gia học tập, tìm hiểu và chấp hành tốt chủ trương của Đảng, chính sách, pháp luật của Nhà nước</span>
+                                <span class="points">10đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Hoạt động cộng đồng:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="giupdoCongDong" value="5">
+                                <span class="checkbox-label">Tích cực tham gia các hoạt động nhân đạo, từ thiện vì cộng đồng; phong trào thanh niên tình nguyện; phong trào giúp đỡ nhân dân và bạn bè khi gặp thiên tai, khó khăn, hoạn nạn (có minh chứng kèm theo)</span>
+                                <span class="points">5đ</span>
+                            </label>
+                        </div>
+                        <div class="file-upload">
+                            <label>Minh chứng:</label>
+                            <input type="file" accept="image/*,.pdf">
+                            <span class="file-hint">*Chấp nhận file ảnh hoặc PDF</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <div class="checkbox-list negative">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="gayMatDoanKet" value="-5">
+                                <span class="checkbox-label">Gây mất đoàn kết trong tập thể lớp</span>
+                                <span class="points">-5đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="dongBHYTmuon" value="-20">
+                                <span class="checkbox-label">Không đóng BHYT đúng hạn</span>
+                                <span class="points">-20đ</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-user-tie"></i>
+                        <div class="section-title-content">
+                            V. Đánh giá về ý thức và kết quả tham gia phụ trách lớp, các đoàn thể tổ chức khác trong Trường
+                            <span class="points">(0 - 10 điểm)</span>
+                        </div>
+                    </h2>
+                    <p class="note">Mục này dành cho SV là thành viên Ban cán sự lớp quản lý sinh viên; cán bộ Đoàn TN, Hội SV</p>
+                </div>
+
+                <div class="rule-section">
+                    <div class="sub-section">
+                        <h4>a) Chức vụ và hoàn thành nhiệm vụ:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="radio" name="thanhvienBCS" value="7">
+                                <span class="checkbox-label">Lớp trưởng, Phó Bí thư Liên chi, Bí thư Chi đoàn</span>
+                                <span class="points">7đ</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="radio" name="thanhvienBCS" value="5">
+                                <span class="checkbox-label">Lớp phó, Phó Bí thư Chi đoàn, Hội trưởng Hội SV</span>
+                                <span class="points">5đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Khen thưởng:</h4>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="caccapKhenThuong" value="3">
+                                <span class="checkbox-label">Được các cấp khen thưởng (có minh chứng kèm theo)</span>
+                                <span class="points">3đ</span>
+                            </label>
+                        </div>
+                        <div class="file-upload">
+                            <label>Minh chứng:</label>
+                            <input type="file" accept="image/*,.pdf">
+                            <span class="file-hint">*Chấp nhận file ảnh hoặc PDF</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <div class="checkbox-list negative">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="BCSvotrachnghiem" value="-5">
+                                <span class="checkbox-label">Là thành viên Ban cán sự lớp quản lý sinh viên; cán bộ Đoàn TN, Hội SV thiếu trách nhiệm (bị GVCN hoặc cấp có thẩm quyền kỉ luật bằng văn bản)</span>
+                                <span class="points">-5đ/lần</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <div class="total-points">
+                    <span>Tổng điểm:</span>
+                    <span id="total-score">0</span>/100
+                </div>
+                <button type="submit" class="btn btn-submit">Nộp đánh giá</button>
+            </div>
+         </div>
+      </form>
+    </div>
+
+    <script src="{% static 'js/students/score_rating.js' %}"></script>
+</body>
+</html>

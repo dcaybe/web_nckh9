@@ -1,0 +1,231 @@
+{% load static %}
+      <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thông báo - Sinh viên</title>
+    <link href="{% static 'css/student.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Sinh viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:student_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_score_rating' %}" class="menu-item">
+                <i class="fas fa-edit"></i>
+                <span>Chấm điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_show_point' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_appeal_again' %}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Khiếu nại điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_historic_fix' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử chỉnh sửa</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_rank' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>Xếp hạng rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>AI hỗ trợ</span>
+            </a>
+          
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Thông báo của tôi</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                  
+                    <div class="user-details">
+                        <span class="user-name">{{ sinhvien.tenSV }}</span>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="notification-wrapper">
+            <div class="notification-header">
+                <div class="filter-section">
+                    <div class="left-filters">
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Tìm kiếm thông báo...">
+                        </div>
+                    </div>
+                    <div class="right-filters">
+                        <div class="filter-buttons">
+                            <div class="dropdown">
+                                <button class="btn-filter">
+                                    <i class="fas fa-filter"></i>
+                                    Trạng thái <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="#" class="active" data-value="all">Tất cả thông báo</a>
+                                    <a href="#" data-value="unread">Chưa đọc</a>
+                                    <a href="#" data-value="read">Đã đọc</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn-filter">
+                                    <i class="fas fa-tags"></i>
+                                    Loại <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="#" class="active" data-value="all">Tất cả loại</a>
+                                    <a href="#" data-value="warning">Cảnh báo</a>
+                                    <a href="#" data-value="info">Thông tin</a>
+                                    <a href="#" data-value="success">Hoàn thành</a>
+                                    <a href="#" data-value="deadline">Hạn chót</a>
+                                </div>
+                            </div>
+                            <button id="markAllRead" class="btn-mark-read">
+                                <i class="fas fa-check-double"></i>
+                                Đánh dấu đã đọc
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification-container">
+                <div id="notificationList" class="notification-list">
+                    {% for notification in notifications %}
+                    <div class="item_noti unread">
+                        <div class="avt_noti">
+                            <div class="icon_noti">
+                                <i class="fas fa-info-circle icon--fix"></i>
+                            </div>
+                        </div>
+                        <div class="noti">
+                            <h4>{{ notification.title }}</h4>
+                            <p>{{ notification.content }}</p>
+                            <div class="noti-footer">
+                                <span class="date_noti">
+                                    <i class="far fa-clock"></i> {{ notification.dob|date:"d/m/Y H:i" }}
+                                </span>
+                               
+                            </div>
+                        </div>
+                    </div>
+                     {% endfor %}
+                    <!-- <div class="item_noti unread">
+                        <div class="avt_noti">
+                            <div class="icon_noti">
+                                <i class="fas fa-exclamation-circle icon--warning"></i>
+                            </div>
+                        </div>
+                        <div class="noti">
+                            <h4>Cảnh báo điểm rèn luyện HK2 2022-2023</h4>
+                            <p>Điểm rèn luyện của bạn ở mức yếu, cần cải thiện...</p>
+                            <div class="noti-footer">
+                                <span class="date_noti">
+                                    <i class="far fa-clock"></i> 18/02/2024 14:15
+                                </span>
+                             
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item_noti read">
+                        <div class="avt_noti">
+                            <div class="icon_noti">
+                                <i class="fas fa-check-circle icon--complex"></i>
+                            </div>
+                        </div>
+                        <div class="noti">
+                            <h4>Xác nhận nộp minh chứng thành công</h4>
+                            <p>Hệ thống đã nhận được minh chứng hoạt động tình nguyện...</p>
+                            <div class="noti-footer">
+                                <span class="date_noti">
+                                    <i class="far fa-clock"></i> 17/02/2024 15:30
+                                </span>
+                              
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item_noti read">
+                        <div class="avt_noti">
+                            <div class="icon_noti">
+                                <i class="fas fa-clock icon--warning"></i>
+                            </div>
+                        </div>
+                        <div class="noti">
+                            <h4>Hạn chót nộp đơn phúc khảo điểm rèn luyện</h4>
+                            <p>Thời hạn nộp đơn phúc khảo điểm rèn luyện HK2 2022-2023...</p>
+                            <div class="noti-footer">
+                                <span class="date_noti">
+                                    <i class="far fa-clock"></i> 16/02/2024 09:00
+                                </span>
+                            
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="title-section">
+                        <h2 id="modalTitle"></h2>
+                        <span id="modalType" class="notification-type"></span>
+                    </div>
+                    <div class="meta-info">
+                        <span id="modalDate" class="notification-date"></span>
+                        <span id="modalSender" class="notification-sender"></span>
+                    </div>
+                </div>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent" class="notification-content"></div>
+                <div id="modalAttachments" class="attachments-section hidden">
+                    <h4>Tệp đính kèm</h4>
+                    <div class="attachments-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-link" onclick="markAsRead(currentNotificationId)">
+                    <i class="fas fa-check"></i> Đánh dấu đã đọc
+                </button>
+                <button class="btn-primary" onclick="closeModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="notification.js"></script>
+</body>
+</html>
+
+
+

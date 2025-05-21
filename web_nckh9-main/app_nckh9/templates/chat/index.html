@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hỗ trợ - Hệ thống Quản lý Điểm Rèn luyện</title>
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="chat-header">
+            <div class="back-button">
+                {% if user.is_staff %}
+                    <a href="{% url 'app_nckh9:admin_dashboard' %}"><i class="fas fa-arrow-left"></i> Quay lại</a>
+                {% else %}
+                    <a href="{% url 'app_nckh9:student_dashboard' %}"><i class="fas fa-arrow-left"></i> Quay lại</a>
+                {% endif %}
+            </div>
+            <h1>AI Hỗ trợ</h1>
+            <div class="user-info">
+                <img src="{% static 'images/avatar-placeholder.jpg' %}" alt="Avatar" class="avatar">
+                <span>{{ user.get_full_name }}</span>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <i class="fas fa-robot"></i>
+                    <div class="message-content">
+                        <p>Xin chào! Tôi là trợ lý AI của hệ thống. Tôi có thể giúp gì cho bạn?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <form id="chatForm" onsubmit="return sendMessage();">
+                    {% csrf_token %}
+                    <input type="text" id="messageInput" placeholder="Nhập câu hỏi của bạn..." autocomplete="off">
+                    <button type="submit">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const message = input.value.trim();
+        if (!message) return false;
+
+        // Hiển thị tin nhắn của người dùng
+        const chatMessages = document.getElementById('chatMessages');
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.className = 'message user';
+        userMessageDiv.innerHTML = `
+            <i class="fas fa-user"></i>
+            <div class="message-content">
+                <p>${message}</p>
+            </div>
+        `;
+        chatMessages.appendChild(userMessageDiv);
+
+        // Gửi tin nhắn đến server
+        fetch('{% url "app_nckh9:chat_send" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: `message=${encodeURIComponent(message)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị phản hồi từ bot
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'message bot';
+            botMessageDiv.innerHTML = `
+                <i class="fas fa-robot"></i>
+                <div class="message-content">
+                    <p>${data.response}</p>
+                </div>
+            `;
+            chatMessages.appendChild(botMessageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        input.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return false;
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sử Điểm</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Lịch Sử Điểm</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Học Kỳ</th>
+                    <th>Điểm</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for semester, score in historic_points %}
+                <tr>
+                    <td>{{ semester }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">Không có dữ liệu</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

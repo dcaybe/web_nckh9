@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hỗ trợ - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/teacher.css' %}" rel="stylesheet">
+    <script src="ai-assistant.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>QL Điểm RL</h2>
+            <p>Giáo viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:teacher_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_class_management' %}" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Quản lý lớp học</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_score_management' %}" class="menu-item">
+                <i class="fas fa-tasks"></i>
+                <span>Quản lý điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_analytics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:teacher_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        
+          
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>AI hỗ trợ </h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <!-- <img src="avatar-placeholder.jpg" alt="Avatar" class="avatar"> -->
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-dashboard">
+            <div class="card insights-card">
+                <h3><i class="fas fa-lightbulb"></i> Phát hiện gần đây</h3>
+                <div class="insights-list">
+                    <div class="insight-item urgent">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div class="insight-content">
+                            <h4>Cảnh báo học tập</h4>
+                            <p>5 sinh viên có điểm rèn luyện giảm liên tục trong 3 tháng gần đây</p>
+                            <button class="btn btn-sm" onclick="viewDetails('warning-001')">Xem danh sách</button>
+                        </div>
+                    </div>
+                    <div class="insight-item">
+                        <i class="fas fa-star"></i>
+                        <div class="insight-content">
+                            <h4>Thành tích nổi bật</h4>
+                            <p>3 sinh viên có sự cải thiện điểm rèn luyện vượt trội</p>
+                            <button class="btn btn-sm" onclick="viewDetails('improvement-001')">Xem chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <div class="card analysis-card">
+                    <h3><i class="fas fa-brain"></i> Công cụ hỗ trợ</h3>
+                    <div class="analysis-tools">
+                        <div class="tool-item">
+                            <h4>Phân tích lớp học</h4>
+                            <p>Đánh giá tổng quan về tình hình rèn luyện của lớp</p>
+                            <button class="btn" onclick="runAnalysis('class-analysis')">
+                                <i class="fas fa-users"></i> Phân tích
+                            </button>
+                        </div>
+                        <div class="tool-item">
+                            <h4>Dự đoán kết quả</h4>
+                            <p>Dự báo xu hướng điểm rèn luyện cuối kỳ</p>
+                            <button class="btn" onclick="runAnalysis('prediction')">
+                                <i class="fas fa-chart-line"></i> Dự đoán
+                            </button>
+                        </div>
+                        <div class="tool-item">
+                            <h4>Tư vấn học tập</h4>
+                            <p>Gợi ý hoạt động phù hợp cho từng sinh viên</p>
+                            <button class="btn" onclick="runAnalysis('student-advice')">
+                                <i class="fas fa-user-graduate"></i> Tư vấn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card recommendations-card">
+                    <h3><i class="fas fa-clipboard-check"></i> Đề xuất hoạt động</h3>
+                    <div class="recommendations-list">
+                        <div class="recommendation-item">
+                            <span class="badge high">Ưu tiên cao</span>
+                            <h4>Tổ chức hoạt động ngoại khóa</h4>
+                            <p>60% sinh viên cần tăng cường hoạt động đoàn thể. Đề xuất tổ chức hoạt động tình nguyện.</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm" onclick="implementRecommendation('act-001')">
+                                    <i class="fas fa-calendar-plus"></i> Lập kế hoạch
+                                </button>
+                                <button class="btn btn-sm btn-outline" onclick="dismissRecommendation('act-001')">
+                                    <i class="fas fa-times"></i> Bỏ qua
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Results Modal -->
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <h2>Kết quả phân tích</h2>
+            <div class="results-container">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="exportResults()">
+                    <i class="fas fa-download"></i> Xuất kết quả
+                </button>
+                <button class="btn" onclick="closeModal('resultsModal')">Đóng</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

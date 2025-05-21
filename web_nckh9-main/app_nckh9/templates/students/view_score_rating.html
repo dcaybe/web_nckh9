@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinh viên - Xem điểm rèn luyện đã đánh giá</title>
+    <link rel="stylesheet" href="{% static 'css/student.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Sinh viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:student_dashboard' %}" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_score_rating' %}" class="menu-item">
+                <i class="fas fa-edit"></i>
+                <span>Chấm điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_show_point' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_appeal_again' %}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Khiếu nại điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_historic_fix' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử chỉnh sửa</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_rank' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>Xếp hạng rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Xem điểm rèn luyện đã đánh giá</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>{{ student.tenSV }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            {% if scores %}
+            <div class="score-list">
+                {% for score in scores %}
+                <div class="score-item card">
+                    <div class="score-header">
+                        <h3>Đánh giá điểm rèn luyện</h3>
+                        <span class="score-date">Ngày đánh giá: {{ score.created_at|date:"d/m/Y" }}</span>
+                    </div>
+                    
+                    <div class="score-details">
+                        <div class="score-section">
+                            <h4>I. Điểm học tập và nghiên cứu khoa học</h4>
+                            <p>Kết quả học tập: {{ score.kqHocTap }} điểm</p>
+                            <p>Điểm NCKH: {{ score.diemNCKH }} điểm</p>
+                            <p>Không dùng phao: {% if score.koDungPhao %}Có{% else %}Không{% endif %}</p>
+                            <p>Không đi học muộn: {% if score.koDiHocMuon %}Có{% else %}Không{% endif %}</p>
+                            {% if score.anhminhchung1 %}
+                            <div class="proof">
+                                <p>Minh chứng:</p>
+                                <img src="{{ score.anhminhchung1.url }}" alt="Minh chứng 1">
+                                {% if score.ghichu1 %}<p class="note">Ghi chú: {{ score.ghichu1 }}</p>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="score-section">
+                            <h4>II. Điểm chấp hành nội quy</h4>
+                            <p>Không vi phạm kỷ luật: {% if score.koVPKL %}Có{% else %}Không{% endif %}</p>
+                            <p>Điểm CDSV: {{ score.diemCDSV }} điểm</p>
+                            {% if score.anhminhchung2 %}
+                            <div class="proof">
+                                <p>Minh chứng:</p>
+                                <img src="{{ score.anhminhchung2.url }}" alt="Minh chứng 2">
+                                {% if score.ghichu2 %}<p class="note">Ghi chú: {{ score.ghichu2 }}</p>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="score-section">
+                            <h4>III. Điểm hoạt động</h4>
+                            <p>Tham gia đầy đủ: {% if score.thamgiaDayDu %}Có{% else %}Không{% endif %}</p>
+                            <p>Thành tích hoạt động: {{ score.thanhtichHoatDong }} điểm</p>
+                            {% if score.anhminhchung3 %}
+                            <div class="proof">
+                                <p>Minh chứng:</p>
+                                <img src="{{ score.anhminhchung3.url }}" alt="Minh chứng 3">
+                                {% if score.ghichu3 %}<p class="note">Ghi chú: {{ score.ghichu3 }}</p>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="score-section">
+                            <h4>IV. Điểm phẩm chất công dân</h4>
+                            <p>Chấp hành đường lối: {% if score.chaphanhDang %}Có{% else %}Không{% endif %}</p>
+                            <p>Giúp đỡ cộng đồng: {% if score.giupdoCongDong %}Có{% else %}Không{% endif %}</p>
+                            {% if score.anhminhchung4 %}
+                            <div class="proof">
+                                <p>Minh chứng:</p>
+                                <img src="{{ score.anhminhchung4.url }}" alt="Minh chứng 4">
+                                {% if score.ghichu4 %}<p class="note">Ghi chú: {{ score.ghichu4 }}</p>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="score-section">
+                            <h4>V. Điểm cán bộ lớp</h4>
+                            <p>Điểm thành viên BCS: {{ score.thanhvienBCS }} điểm</p>
+                            <p>Khen thưởng các cấp: {% if score.caccapKhenThuong %}Có{% else %}Không{% endif %}</p>
+                            {% if score.anhminhchung5 %}
+                            <div class="proof">
+                                <p>Minh chứng:</p>
+                                <img src="{{ score.anhminhchung5.url }}" alt="Minh chứng 5">
+                                {% if score.ghichu5 %}<p class="note">Ghi chú: {{ score.ghichu5 }}</p>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="total-score">
+                            <h3>Tổng điểm: {{ score.drl_tongket }}</h3>
+                            <h4>Xếp loại: {{ score.xepLoai }}</h4>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-data">
+                <p>Chưa có dữ liệu đánh giá điểm rèn luyện</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        .score-list {
+            padding: 20px;
+        }
+        .score-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .score-date {
+            color: #666;
+        }
+        .score-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .score-section h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .proof {
+            margin-top: 10px;
+        }
+        .proof img {
+            max-width: 300px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .note {
+            font-style: italic;
+            color: #666;
+        }
+        .total-score {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+        }
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+    </style>
+</body>
+</html>

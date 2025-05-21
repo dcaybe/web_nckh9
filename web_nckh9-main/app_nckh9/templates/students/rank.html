@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng xếp hạng điểm rèn luyện - Sinh viên</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/student.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="rank.js" defer></script>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Sinh viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:student_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_score_rating' %}" class="menu-item">
+                <i class="fas fa-edit"></i>
+                <span>Chấm điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_show_point' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_appeal_again' %}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Khiếu nại điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_historic_fix' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử chỉnh sửa</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_rank' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>Xếp hạng rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>AI hỗ trợ</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Bảng xếp hạng điểm rèn luyện</h1>
+            <div class="user-info">
+
+                <span>{{ sinhvien.tenSV }}</span>
+            </div>
+        </div>
+
+        <div class="rank-container">
+            <div class="filter-bar">
+                <select class="semester-select">
+                    <option>Học kỳ 1 - 2023-2024</option>
+                    <option>Học kỳ 2 - 2023-2024</option>
+                </select>
+            </div>
+
+            <div class="top-rankings">
+                {% for student in top3 %}
+                <div
+                    class="rank-card {% if forloop.counter == 1 %}second{% elif forloop.counter == 2 %}first{% elif forloop.counter == 3 %}third{% endif %}">
+                    <div class="rank-position">#{{ forloop.counter }}</div>
+                    <div class="rank-info">
+                        <div class="rank-name">{{ student.tenSV }}</div>
+                        <div class="rank-score">{{ student.hocky1 }} điểm</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="rank-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hạng</th>
+                            <th>Sinh viên</th>
+                            <th>Lớp</th>
+                            <th>Điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in others %}
+                        <tr>
+                            <td>{{ forloop.counter|add:3 }}</td>
+                            <td>
+                                <div class="student-info">
+                                    <span>{{ student.tenSV }}</span>
+                                </div>
+                            </td>
+                            <td>{{ student.lopSV }}</td>
+                            <td>{{ student.hocky1 }}</td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+

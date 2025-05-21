@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thông báo - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+    <script src="notifications.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Quản lý thông báo</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="rules-header">
+            <div class="global-actions">
+                <button class="btn btn-primary" onclick="openCreateNotification()">
+                    <i class="fas fa-plus"></i> Tạo thông báo mới
+                </button>
+            </div>
+        </div>
+
+        <div class="filters card">
+            <div class="filter-group">
+                <select id="statusFilter" class="filter-select">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="draft">Nháp</option>
+                    <option value="published">Đã đăng</option>
+                    <option value="scheduled">Đã lên lịch</option>
+                </select>
+                <select id="targetFilter" class="filter-select">
+                    <option value="">Tất cả đối tượng</option>
+                    <option value="all">Toàn trường</option>
+                    <option value="faculty">Theo khoa</option>
+                    <option value="class">Theo lớp</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm thông báo..." class="search-input">
+            </div>
+        </div>
+
+        <div class="notifications-grid">
+            <!-- Notification Cards -->
+            <div class="notification-card">
+                <div class="notification-header">
+                    <span class="badge published">Đã đăng</span>
+                    <div class="actions">
+                        <button class="btn-icon" onclick="editNotification(1)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="deleteNotification(1)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h3>Thông báo về việc chấm điểm rèn luyện HK1 2023-2024</h3>
+                <p class="meta">
+                    <span><i class="fas fa-clock"></i> 20/02/2024</span>
+                    <span><i class="fas fa-users"></i> Toàn trường</span>
+                </p>
+                <div class="notification-content">
+                    Thông báo đến toàn thể sinh viên về việc thực hiện chấm điểm rèn luyện...
+                </div>
+                <div class="notification-footer">
+                    <button class="btn btn-sm" onclick="viewStats(1)">
+                        <i class="fas fa-chart-bar"></i> Thống kê
+                    </button>
+                    <span class="views"><i class="fas fa-eye"></i> 1,234</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <!-- Pagination will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Create/Edit Notification Modal -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <h2><span id="modalTitle">Tạo thông báo mới</span></h2>
+            <form id="notificationForm" onsubmit="handleNotificationSubmit(event)">
+                <div class="form-group">
+                    <label for="title">Tiêu đề:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">Nội dung:</label>
+                    <textarea id="content" name="content" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="target">Đối tượng nhận:</label>
+                    <select id="target" name="target" required>
+                        <option value="all">Toàn trường</option>
+                        <option value="faculty">Theo khoa</option>
+                        <option value="class">Theo lớp</option>
+                    </select>
+                </div>
+                <div id="targetDetails" class="form-group" style="display: none;">
+                    <!-- Dynamic target selection fields -->
+                </div>
+                <div class="form-group">
+                    <label for="schedule">Lên lịch đăng:</label>
+                    <input type="datetime-local" id="schedule" name="schedule">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="saveAsDraft()">Lưu nháp</button>
+                    <button type="submit" class="btn btn-primary">Đăng ngay</button>
+                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <h2>Thống kê thông báo</h2>
+            <div class="stats-content">
+                <div class="stat-item">
+                    <h3>Lượt xem</h3>
+                    <p class="stat-value">1,234</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Đã đọc</h3>
+                    <p class="stat-value">89%</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="viewsChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="closeStatsModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinh viên - Hệ thống Quản lý điểm rèn luyện</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/student.css' %}" rel="stylesheet">
+
+</head>
+<body>
+     {% if current_student %}
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Sinh viên</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:student_dashboard' %}" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_score_rating' %}" class="menu-item">
+                <i class="fas fa-edit"></i>
+                <span>Chấm điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_show_point' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem điểm rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_notifications' %}" class="menu-item">
+                <i class="fas fa-bell"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_appeal_again' %}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Khiếu nại điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_historic_fix' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử chỉnh sửa</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_rank' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>Xếp hạng rèn luyện</span>
+            </a>
+            <a href="{% url 'app_nckh9:student_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                <span>AI hỗ trợ</span>
+            </a>
+          
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Trang chủ Sinh viên</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                  
+                    <span>{{ current_student.tenSV }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card score-card">
+                <h2><i class="fas fa-star"></i> Điểm rèn luyện hiện tại</h2>
+                <div class="score-display">
+                    
+                    <div class="score-details">
+                        <h3>Học kỳ: <span id="semester">1</span> - Năm học: <span id="academic-year">2023-2024</span></h3>
+                        <p class="score-status" id="score-classification">Xếp loại:{{ xeploai }} </p>
+                        <div class="score-trend">
+                            <span>Xu hướng: </span>
+                            <i class="fas fa-arrow-up trending-up"></i>
+                            <span>+5 điểm so với kỳ trước</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card ranking-card">
+                <div class="ranking-header">
+                    <i class="fas fa-trophy"></i>
+                    <h2>Xếp hạng</h2>
+                </div>
+                <div class="rank-badge">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="rank-position">
+                    <div class="rank-number">5</div>
+                    <div class="rank-total">trong 120 sinh viên</div>
+                </div>
+                <div class="rank-details">
+                    <div class="rank-detail-item">
+                        <h4>Xếp hạng lớp</h4>
+                        <p>5/120</p>
+                    </div>
+                    <div class="rank-detail-item">
+                        <h4>Xếp hạng khoa</h4>
+                        <p>25/560</p>
+                    </div>
+                    <div class="rank-detail-item">
+                        <h4>Kỳ trước</h4>
+                        <p>7/120</p>
+                    </div>
+                    <div class="rank-detail-item">
+                        <h4>Thay đổi</h4>
+                        <p class="trending-up">↑ 2 hạng</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card info-card">
+                <h2><i class="fas fa-info-circle"></i> Thông tin học kỳ</h2>
+                <div class="semester-info">
+                    <div class="info-item">
+                        <span class="info-label">Trạng thái:</span>
+                        <span class="info-value status-active">Đang diễn ra</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Thời gian bắt đầu:</span>
+                        <span class="info-value">01/09/2023</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Thời gian kết thúc:</span>
+                        <span class="info-value">31/12/2023</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hạn chấm điểm:</span>
+                        <span class="info-value deadline">Còn 5 ngày</span>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Quick Actions Section -->
+            <div class="quick-actions">
+                <div class="quick-action-card" onclick="window.location.href='score_ratings.html'">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <h3>Chấm điểm rèn luyện</h3>
+                        <p>Đánh giá điểm cho kỳ học hiện tại</p>
+                    </div>
+                </div>
+                <div class="quick-action-card" onclick="window.location.href='appeal_again.html'">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <h3>Gửi khiếu nại</h3>
+                        <p>Yêu cầu xem xét lại điểm số</p>
+                    </div>
+                </div>
+                <div class="quick-action-card" onclick="window.location.href='notification.html'">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <h3>Xem thông báo</h3>
+                        <p>3 thông báo mới</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities Section -->
+            <div class="recent-activities">
+                <h2><i class="fas fa-history"></i> Hoạt động gần đây</h2>
+                <div class="activity-item">
+                    <div class="activity-icon edit">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h4>Cập nhật điểm rèn luyện</h4>
+                        <div class="activity-time">2 giờ trước</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon score">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h4>Điểm được phê duyệt</h4>
+                        <div class="activity-time">1 ngày trước</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon appeal">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h4>Gửi khiếu nại điểm</h4>
+                        <div class="activity-time">3 ngày trước</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <script src="dashboard.js"></script>
+</body>
+</html> 

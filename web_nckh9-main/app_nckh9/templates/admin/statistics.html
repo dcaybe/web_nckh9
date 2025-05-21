@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê & Báo cáo - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/admin/statistics.js' %}" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Thống kê & Báo cáo</h1>
+            </div>
+            <div class="header-right">
+                <div class="date-range">
+                    <select id="semesterSelect">
+                        <option value="current">Học kỳ hiện tại</option>
+                        <option value="previous">Học kỳ trước</option>
+                        <option value="year">Cả năm học</option>
+                    </select>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span>Nguyễn Văn A</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="rules-header">
+            <div class="global-actions">
+                <button class="btn btn-export" onclick="exportReport()">
+                    <i class="fas fa-file-export"></i> Xuất báo cáo
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card overview-card">
+                <h3>Tổng quan điểm rèn luyện</h3>
+                <div class="overview-stats">
+                    <div class="stat-box">
+                        <span class="label">Tổng sinh viên</span>
+                        <span class="value">1,234</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="label">Đã chấm điểm</span>
+                        <span class="value">1,180</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="label">Điểm TB</span>
+                        <span class="value">82.5</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="label">Hoàn thành</span>
+                        <span class="value">95.6%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card chart-card">
+                <h3>Phân bố điểm rèn luyện</h3>
+                <canvas id="distributionChart"></canvas>
+            </div>
+
+            <div class="card comparison-card">
+                <h3>So sánh các khoa</h3>
+                <canvas id="facultyChart"></canvas>
+            </div>
+
+            <div class="card trend-card">
+                <h3>Xu hướng theo thời gian</h3>
+                <canvas id="trendChart"></canvas>
+            </div>
+
+            <div class="card ranking-card">
+                <h3>Top 10 lớp có điểm cao nhất</h3>
+                <div class="ranking-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Category card removed -->
+        </div>
+
+        <div class="detailed-stats">
+            <div class="card">
+                <h3>Báo cáo chi tiết theo lớp</h3>
+                <div class="table-filters">
+                    <select id="facultyFilter">
+                        <option value="">Tất cả khoa</option>
+                    </select>
+                    <select id="classFilter">
+                        <option value="">Tất cả lớp</option>
+                    </select>
+                    <button class="btn" onclick="filterStats()">
+                        <i class="fas fa-filter"></i> Lọc
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Lớp</th>
+                                <th>Sĩ số</th>
+                                <th>Đã nộp</th>
+                                <th>Xuất sắc</th>
+                                <th>Tốt</th>
+                                <th>Khá</th>
+                                <th>Trung bình</th>
+                                <th>Yếu</th>
+                                <th>Điểm TB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Options Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <h2>Xuất báo cáo</h2>
+            <div class="export-options">
+                <label>
+                    <input type="checkbox" value="overview" checked> Tổng quan
+                </label>
+                <label>
+                    <input type="checkbox" value="distribution" checked> Biểu đồ phân bố
+                </label>
+                <label>
+                    <input type="checkbox" value="faculty" checked> So sánh khoa
+                </label>
+                <label>
+                    <input type="checkbox" value="detailed" checked> Báo cáo chi tiết
+                </label>
+            </div>
+            <div class="format-options">
+                <button class="btn" onclick="downloadReport('pdf')">
+                    <i class="fas fa-file-pdf"></i> PDF
+                </button>
+                <button class="btn" onclick="downloadReport('excel')">
+                    <i class="fas fa-file-excel"></i> Excel
+                </button>
+            </div>
+            <button class="btn-close" onclick="closeExportModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

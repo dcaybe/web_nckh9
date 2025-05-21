@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đồng bộ dữ liệu - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{% static 'js/admin/api.js' %}" type="module"></script>
+    <script src="{% static 'js/admin/export-sync.js' %}" type="module"></script>
+</head>
+<body>
+    <!-- Sidebar giống các trang khác -->
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Đồng bộ dữ liệu</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-sync-dashboard">
+            <!-- Export Section -->
+            <div class="card export-card">
+                <h3><i class="fas fa-file-export"></i> Export Dữ liệu</h3>
+                <form id="exportForm" class="export-form">
+                    <div class="form-group">
+                        <label>Định dạng:</label>
+                        <select name="format" required>
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Loại dữ liệu:</label>
+                        <select name="data_type" required>
+                            <option value="scores">Điểm số</option>
+                            <option value="appeals">Khiếu nại</option>
+                            <option value="users">Người dùng</option>
+                            <option value="activities">Hoạt động</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Từ ngày:</label>
+                            <input type="date" name="start_date">
+                        </div>
+                        <div class="form-group">
+                            <label>Đến ngày:</label>
+                            <input type="date" name="end_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Trường dữ liệu:</label>
+                        <div class="checkbox-group" id="includeFields">
+                            <!-- Populated by JS based on data type -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-file-export"></i> Bắt đầu Export
+                        </button>
+                    </div>
+                </form>
+                <div class="progress-container" id="exportProgress" style="display: none;">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress-text">Đang chuẩn bị...</div>
+                </div>
+            </div>
+
+            <!-- Sync Dashboard -->
+            <div class="sync-dashboard">
+            <div class="card status-card">
+                <h3><i class="fas fa-info-circle"></i> Trạng thái đồng bộ</h3>
+                <div class="status-info">
+                    <div class="status-item">
+                        <span class="label">Lần đồng bộ cuối:</span>
+                        <span class="value" id="lastSync">20/02/2024 15:30</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Trạng thái:</span>
+                        <span class="value status-success">Hoàn thành</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Dữ liệu đã đồng bộ:</span>
+                        <span class="value">1,234 bản ghi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sync-actions">
+                <div class="card action-card">
+                    <h3><i class="fas fa-database"></i> Đồng bộ thủ công</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="startSync('all')">
+                            <i class="fas fa-sync"></i> Đồng bộ tất cả
+                        </button>
+                        <button class="btn" onclick="startSync('students')">
+                            <i class="fas fa-user-graduate"></i> Đồng bộ danh sách sinh viên
+                        </button>
+                        <button class="btn" onclick="startSync('scores')">
+                            <i class="fas fa-star"></i> Đồng bộ điểm rèn luyện
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card schedule-card">
+                    <h3><i class="fas fa-clock"></i> Lịch đồng bộ tự động</h3>
+                    <div class="schedule-settings">
+                        <div class="form-group">
+                            <label>Tần suất đồng bộ:</label>
+                            <select id="syncFrequency" onchange="updateSchedule()">
+                                <option value="daily">Hàng ngày</option>
+                                <option value="weekly">Hàng tuần</option>
+                                <option value="monthly">Hàng tháng</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian đồng bộ:</label>
+                            <input type="time" id="syncTime" value="00:00" onchange="updateSchedule()">
+                        </div>
+                        <div class="schedule-status">
+                            <label class="switch">
+                                <input type="checkbox" id="autoSync" onchange="toggleAutoSync()">
+                                <span class="slider round"></span>
+                            </label>
+                            <span>Bật đồng bộ tự động</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card log-card">
+                <h3><i class="fas fa-history"></i> Lịch sử đồng bộ</h3>
+                <div class="log-filters">
+                    <select id="logType" onchange="filterLogs()">
+                        <option value="all">Tất cả</option>
+                        <option value="success">Thành công</option>
+                        <option value="error">Lỗi</option>
+                    </select>
+                    <input type="date" id="logDate" onchange="filterLogs()">
+                </div>
+                <div class="log-table-container">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Loại đồng bộ</th>
+                                <th>Trạng thái</th>
+                                <th>Số lượng</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Container -->
+    <div id="notificationsContainer" class="notifications-container"></div>
+
+    <!-- Progress Modal -->
+    <div id="progressModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Đang xử lý</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="modalProgress"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="modalProgressText">0%</span>
+                    <span id="modalProgressDetails">Đang chuẩn bị...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

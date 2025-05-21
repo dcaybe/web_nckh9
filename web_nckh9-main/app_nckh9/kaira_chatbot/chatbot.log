@@ -1,0 +1,451 @@
+2025-04-18 15:48:40,121 - INFO - Downloading model from HuggingFace...
+2025-04-18 15:49:43,131 - INFO - Model downloaded successfully
+2025-04-18 15:49:43,131 - INFO - Loading Model...
+2025-04-18 15:49:47,008 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-18 15:49:47,008 - INFO - Reading documents...
+2025-04-18 15:49:47,071 - INFO - Processed file doc/cdr.docx
+2025-04-18 15:49:47,085 - INFO - Processed file doc/danhgia.docx
+2025-04-18 15:49:47,117 - INFO - Processed file doc/hocbong.docx
+2025-04-18 15:49:47,151 - INFO - Processed file doc/khaothi.docx
+2025-04-18 15:49:47,171 - INFO - Processed file doc/khenthuong.docx
+2025-04-18 15:49:47,376 - INFO - Processed file doc/thanhtoan.docx
+2025-04-18 15:49:47,810 - INFO - Processed file doc/768.docx
+2025-04-18 15:49:47,832 - INFO - Processed file doc/1740.docx
+2025-04-18 15:49:47,869 - INFO - Processed file doc/vanbang.docx
+2025-04-18 15:49:47,881 - INFO - Loaded 52 text chunks
+2025-04-18 15:49:47,881 - INFO - Initializing or loading FAISS index...
+2025-04-18 15:49:47,881 - INFO - Building FAISS index...
+2025-04-18 15:49:48,065 - INFO - Saved index to cache
+2025-04-18 15:53:13,394 - ERROR - Error calling LLM: No provider found for model: Model(name='gpt-3.5-turbo', base_provider='OpenAI', best_provider=None)
+2025-04-18 15:53:13,394 - ERROR - Error in chat: No provider found for model: Model(name='gpt-3.5-turbo', base_provider='OpenAI', best_provider=None)
+2025-04-18 15:58:59,369 - INFO - Loading Model...
+2025-04-18 15:58:59,716 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-18 15:58:59,716 - INFO - Reading documents...
+2025-04-18 15:58:59,847 - INFO - Processed file doc/danhgia.docx
+2025-04-18 15:58:59,878 - INFO - Processed file doc/hocbong.docx
+2025-04-18 15:58:59,928 - INFO - Processed file doc/cdr.docx
+2025-04-18 15:58:59,961 - INFO - Processed file doc/khaothi.docx
+2025-04-18 15:58:59,983 - INFO - Processed file doc/khenthuong.docx
+2025-04-18 15:59:00,187 - INFO - Processed file doc/thanhtoan.docx
+2025-04-18 15:59:00,490 - INFO - Processed file doc/768.docx
+2025-04-18 15:59:00,561 - INFO - Processed file doc/1740.docx
+2025-04-18 15:59:00,621 - INFO - Processed file doc/vanbang.docx
+2025-04-18 15:59:00,622 - INFO - Loaded 52 text chunks
+2025-04-18 15:59:00,622 - INFO - Initializing or loading FAISS index...
+2025-04-18 15:59:00,622 - INFO - Loading FAISS index from cache...
+2025-04-18 15:59:05,241 - ERROR - Error calling LLM: No provider found for model: Model(name='gpt-3.5-turbo', base_provider='OpenAI', best_provider=None)
+2025-04-18 15:59:05,241 - ERROR - Error in chat: Error calling LLM: No provider found for model: Model(name='gpt-3.5-turbo', base_provider='OpenAI', best_provider=None)
+2025-04-22 13:04:08,330 - INFO - Loading Model...
+2025-04-22 13:04:08,953 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-22 13:04:08,953 - INFO - Reading documents...
+2025-04-22 13:04:09,029 - INFO - Processed file doc/danhgia.docx
+2025-04-22 13:04:09,096 - INFO - Processed file doc/cdr.docx
+2025-04-22 13:04:09,112 - INFO - Processed file doc/hocbong.docx
+2025-04-22 13:04:09,203 - INFO - Processed file doc/khaothi.docx
+2025-04-22 13:04:09,210 - INFO - Processed file doc/khenthuong.docx
+2025-04-22 13:04:09,587 - INFO - Processed file doc/thanhtoan.docx
+2025-04-22 13:04:10,315 - INFO - Processed file doc/768.docx
+2025-04-22 13:04:10,401 - INFO - Processed file doc/1740.docx
+2025-04-22 13:04:10,485 - INFO - Processed file doc/vanbang.docx
+2025-04-22 13:04:10,485 - INFO - Loaded 52 text chunks
+2025-04-22 13:04:10,486 - INFO - Initializing or loading FAISS index...
+2025-04-22 13:04:10,487 - INFO - Loading FAISS index from cache...
+2025-04-22 13:07:36,368 - INFO - Loading Model...
+2025-04-22 13:07:36,853 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-22 13:07:36,853 - INFO - Reading documents...
+2025-04-22 13:07:36,974 - INFO - Processed file doc/danhgia.docx
+2025-04-22 13:07:37,025 - INFO - Processed file doc/hocbong.docx
+2025-04-22 13:07:37,061 - INFO - Processed file doc/cdr.docx
+2025-04-22 13:07:37,094 - INFO - Processed file doc/khaothi.docx
+2025-04-22 13:07:37,115 - INFO - Processed file doc/khenthuong.docx
+2025-04-22 13:07:37,334 - INFO - Processed file doc/thanhtoan.docx
+2025-04-22 13:07:37,570 - INFO - Processed file doc/768.docx
+2025-04-22 13:07:37,659 - INFO - Processed file doc/1740.docx
+2025-04-22 13:07:37,726 - INFO - Processed file doc/vanbang.docx
+2025-04-22 13:07:37,726 - INFO - Loaded 52 text chunks
+2025-04-22 13:07:37,726 - INFO - Initializing or loading FAISS index...
+2025-04-22 13:07:37,726 - INFO - Loading FAISS index from cache...
+2025-04-22 13:21:30,170 - INFO - Loading Model...
+2025-04-22 13:21:30,703 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-22 13:21:30,703 - INFO - Reading documents...
+2025-04-22 13:21:30,750 - INFO - Processed file doc/danhgia.docx
+2025-04-22 13:21:30,795 - INFO - Processed file doc/hocbong.docx
+2025-04-22 13:21:30,894 - INFO - Processed file doc/khaothi.docx
+2025-04-22 13:21:30,909 - INFO - Processed file doc/cdr.docx
+2025-04-22 13:21:30,950 - INFO - Processed file doc/khenthuong.docx
+2025-04-22 13:21:31,122 - INFO - Processed file doc/thanhtoan.docx
+2025-04-22 13:21:31,476 - INFO - Processed file doc/768.docx
+2025-04-22 13:21:31,527 - INFO - Processed file doc/1740.docx
+2025-04-22 13:21:31,595 - INFO - Processed file doc/vanbang.docx
+2025-04-22 13:21:31,596 - INFO - Loaded 52 text chunks
+2025-04-22 13:21:31,596 - INFO - Initializing or loading FAISS index...
+2025-04-22 13:21:31,597 - INFO - Loading FAISS index from cache...
+2025-04-27 09:57:27,871 - INFO - Loading Model...
+2025-04-27 09:57:28,816 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 09:57:28,816 - INFO - Reading documents...
+2025-04-27 09:57:28,892 - INFO - Processed file doc/danhgia.docx
+2025-04-27 09:57:29,081 - INFO - Processed file doc/hocbong.docx
+2025-04-27 09:57:29,187 - INFO - Processed file doc/khaothi.docx
+2025-04-27 09:57:29,188 - INFO - Processed file doc/cdr.docx
+2025-04-27 09:57:29,278 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 09:57:29,418 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 09:57:29,778 - INFO - Processed file doc/768.docx
+2025-04-27 09:57:29,826 - INFO - Processed file doc/1740.docx
+2025-04-27 09:57:29,910 - INFO - Processed file doc/vanbang.docx
+2025-04-27 09:57:29,911 - INFO - Loaded 52 text chunks
+2025-04-27 09:57:29,911 - INFO - Initializing or loading FAISS index...
+2025-04-27 09:57:29,912 - INFO - Loading FAISS index from cache...
+2025-04-27 10:19:05,485 - ERROR - Lỗi xử lý câu hỏi: 
+2025-04-27 10:19:29,848 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-27 10:19:29,848 - INFO - Loading Model...
+2025-04-27 10:19:44,799 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 10:19:44,799 - INFO - Reading documents...
+2025-04-27 10:19:44,977 - INFO - Processed file doc/danhgia.docx
+2025-04-27 10:19:45,016 - INFO - Processed file doc/hocbong.docx
+2025-04-27 10:19:45,066 - INFO - Processed file doc/cdr.docx
+2025-04-27 10:19:45,084 - INFO - Processed file doc/khaothi.docx
+2025-04-27 10:19:45,135 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 10:19:45,325 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 10:19:45,574 - INFO - Processed file doc/768.docx
+2025-04-27 10:19:45,624 - INFO - Processed file doc/1740.docx
+2025-04-27 10:19:45,699 - INFO - Processed file doc/vanbang.docx
+2025-04-27 10:19:45,699 - INFO - Loaded 52 text chunks
+2025-04-27 10:19:45,699 - INFO - Initializing or loading FAISS index...
+2025-04-27 10:19:45,699 - INFO - Building FAISS index...
+2025-04-27 10:19:50,282 - ERROR - Error building index: Error in void __cdecl faiss::Clustering::train_encoded(idx_t, const uint8_t *, const Index *, Index &, const float *) at D:\a\faiss-wheels\faiss-wheels\faiss\faiss\Clustering.cpp:295: Error: 'nx >= k' failed: Number of training points (52) should be at least as large as number of clusters (100)
+2025-04-27 10:19:50,282 - ERROR - Program error: Error in void __cdecl faiss::Clustering::train_encoded(idx_t, const uint8_t *, const Index *, Index &, const float *) at D:\a\faiss-wheels\faiss-wheels\faiss\faiss\Clustering.cpp:295: Error: 'nx >= k' failed: Number of training points (52) should be at least as large as number of clusters (100)
+2025-04-27 10:20:06,162 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-27 10:20:06,162 - INFO - Loading Model...
+2025-04-27 10:20:10,023 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 10:20:10,023 - INFO - Reading documents...
+2025-04-27 10:20:10,191 - INFO - Processed file doc/danhgia.docx
+2025-04-27 10:20:10,238 - INFO - Processed file doc/hocbong.docx
+2025-04-27 10:20:10,247 - INFO - Processed file doc/cdr.docx
+2025-04-27 10:20:10,289 - INFO - Processed file doc/khaothi.docx
+2025-04-27 10:20:10,317 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 10:20:10,511 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 10:20:10,853 - INFO - Processed file doc/768.docx
+2025-04-27 10:20:10,917 - INFO - Processed file doc/1740.docx
+2025-04-27 10:20:10,987 - INFO - Processed file doc/vanbang.docx
+2025-04-27 10:20:10,989 - INFO - Loaded 52 text chunks
+2025-04-27 10:20:10,989 - INFO - Initializing or loading FAISS index...
+2025-04-27 10:20:10,989 - INFO - Building FAISS index...
+2025-04-27 10:20:15,495 - ERROR - Error building index: Error in void __cdecl faiss::Clustering::train_encoded(idx_t, const uint8_t *, const Index *, Index &, const float *) at D:\a\faiss-wheels\faiss-wheels\faiss\faiss\Clustering.cpp:295: Error: 'nx >= k' failed: Number of training points (52) should be at least as large as number of clusters (100)
+2025-04-27 10:20:15,495 - ERROR - Program error: Error in void __cdecl faiss::Clustering::train_encoded(idx_t, const uint8_t *, const Index *, Index &, const float *) at D:\a\faiss-wheels\faiss-wheels\faiss\faiss\Clustering.cpp:295: Error: 'nx >= k' failed: Number of training points (52) should be at least as large as number of clusters (100)
+2025-04-27 10:20:40,149 - INFO - Loading Model...
+2025-04-27 10:20:40,594 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 10:20:40,594 - INFO - Reading documents...
+2025-04-27 10:20:40,818 - INFO - Processed file doc/danhgia.docx
+2025-04-27 10:20:40,850 - INFO - Processed file doc/hocbong.docx
+2025-04-27 10:20:40,932 - INFO - Processed file doc/khaothi.docx
+2025-04-27 10:20:40,932 - INFO - Processed file doc/cdr.docx
+2025-04-27 10:20:41,019 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 10:20:41,131 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 10:20:41,453 - INFO - Processed file doc/768.docx
+2025-04-27 10:20:41,511 - INFO - Processed file doc/1740.docx
+2025-04-27 10:20:41,579 - INFO - Processed file doc/vanbang.docx
+2025-04-27 10:20:41,580 - INFO - Loaded 52 text chunks
+2025-04-27 10:20:41,580 - INFO - Initializing or loading FAISS index...
+2025-04-27 10:20:41,580 - INFO - Loading FAISS index from cache...
+2025-04-27 10:27:19,448 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-27 10:27:19,469 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-27 10:27:19,470 - INFO - Loading Model...
+2025-04-27 10:27:26,915 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 10:27:26,915 - INFO - Reading documents...
+2025-04-27 10:27:27,043 - INFO - Processed file doc/danhgia.docx
+2025-04-27 10:27:27,084 - INFO - Processed file doc/hocbong.docx
+2025-04-27 10:27:27,152 - INFO - Processed file doc/cdr.docx
+2025-04-27 10:27:27,162 - INFO - Processed file doc/khaothi.docx
+2025-04-27 10:27:27,198 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 10:27:27,398 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 10:27:27,650 - INFO - Processed file doc/768.docx
+2025-04-27 10:27:27,716 - INFO - Processed file doc/1740.docx
+2025-04-27 10:27:27,802 - INFO - Processed file doc/vanbang.docx
+2025-04-27 10:27:27,804 - INFO - Loaded 52 text chunks
+2025-04-27 10:27:27,805 - INFO - Initializing or loading FAISS index...
+2025-04-27 10:27:27,809 - INFO - Building FAISS index...
+2025-04-27 10:27:32,739 - ERROR - Error building index: Error in void __cdecl faiss::Clustering::train_encoded(idx_t, const uint8_t *, const Index *, Index &, const float *) at D:\a\faiss-wheels\faiss-wheels\faiss\faiss\Clustering.cpp:295: Error: 'nx >= k' failed: Number of training points (52) should be at least as large as number of clusters (100)
+2025-04-27 10:27:32,739 - ERROR - Program error: Error in void __cdecl faiss::Clustering::train_encoded(idx_t, const uint8_t *, const Index *, Index &, const float *) at D:\a\faiss-wheels\faiss-wheels\faiss\faiss\Clustering.cpp:295: Error: 'nx >= k' failed: Number of training points (52) should be at least as large as number of clusters (100)
+2025-04-27 10:30:11,779 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-27 10:30:11,779 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-27 10:30:11,779 - INFO - Loading Model...
+2025-04-27 10:30:18,555 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 10:30:18,555 - INFO - Reading documents...
+2025-04-27 10:30:18,651 - INFO - Processed file doc/danhgia.docx
+2025-04-27 10:30:18,685 - INFO - Processed file doc/hocbong.docx
+2025-04-27 10:30:18,733 - INFO - Processed file doc/cdr.docx
+2025-04-27 10:30:18,755 - INFO - Processed file doc/khaothi.docx
+2025-04-27 10:30:18,789 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 10:30:18,931 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 10:30:19,262 - INFO - Processed file doc/768.docx
+2025-04-27 10:30:19,317 - INFO - Processed file doc/1740.docx
+2025-04-27 10:30:19,388 - INFO - Processed file doc/vanbang.docx
+2025-04-27 10:30:19,391 - INFO - Loaded 52 text chunks
+2025-04-27 10:30:19,391 - INFO - Initializing or loading FAISS index...
+2025-04-27 10:30:19,391 - INFO - Building FAISS index...
+2025-04-27 10:30:24,409 - INFO - Saved 52 texts to cache/texts.db
+2025-04-27 10:30:24,411 - INFO - Saved index to cache
+2025-04-27 10:44:13,031 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-27 10:44:13,050 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-27 10:44:13,050 - INFO - Loading Model...
+2025-04-27 10:44:20,405 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-27 10:44:20,412 - INFO - Reading documents...
+2025-04-27 10:44:20,467 - INFO - Processed file doc/danhgia.docx
+2025-04-27 10:44:20,519 - INFO - Processed file doc/hocbong.docx
+2025-04-27 10:44:20,603 - INFO - Processed file doc/khaothi.docx
+2025-04-27 10:44:20,604 - INFO - Processed file doc/cdr.docx
+2025-04-27 10:44:20,682 - INFO - Processed file doc/khenthuong.docx
+2025-04-27 10:44:20,765 - INFO - Processed file doc/thanhtoan.docx
+2025-04-27 10:44:21,107 - INFO - Processed file doc/768.docx
+2025-04-27 10:44:21,157 - INFO - Processed file doc/1740.docx
+2025-04-27 10:44:21,232 - INFO - Processed file doc/vanbang.docx
+2025-04-27 10:44:21,232 - INFO - Loaded 52 text chunks
+2025-04-27 10:44:21,232 - INFO - Initializing or loading FAISS index...
+2025-04-27 10:44:21,232 - INFO - Loading FAISS index from cache...
+2025-04-27 10:44:21,254 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 09:33:55,070 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 09:33:55,085 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 09:33:55,085 - INFO - Loading Model...
+2025-04-28 09:34:07,875 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 09:34:07,875 - INFO - Reading documents...
+2025-04-28 09:34:08,061 - INFO - Processed file doc/danhgia.docx
+2025-04-28 09:34:08,126 - INFO - Processed file doc/hocbong.docx
+2025-04-28 09:34:08,154 - INFO - Processed file doc/cdr.docx
+2025-04-28 09:34:08,213 - INFO - Processed file doc/khaothi.docx
+2025-04-28 09:34:08,214 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 09:34:08,441 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 09:34:08,710 - INFO - Processed file doc/768.docx
+2025-04-28 09:34:08,770 - INFO - Processed file doc/1740.docx
+2025-04-28 09:34:08,841 - INFO - Processed file doc/vanbang.docx
+2025-04-28 09:34:08,842 - INFO - Loaded 52 text chunks
+2025-04-28 09:34:08,843 - INFO - Initializing or loading FAISS index...
+2025-04-28 09:34:08,843 - INFO - Loading FAISS index from cache...
+2025-04-28 09:34:08,853 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 09:36:58,663 - WARNING - Câu hỏi không phù hợp, chứa từ khóa: vl
+2025-04-28 09:37:48,197 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 09:37:48,197 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 09:37:48,197 - INFO - Loading Model...
+2025-04-28 09:37:54,713 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 09:37:54,713 - INFO - Reading documents...
+2025-04-28 09:37:54,764 - INFO - Processed file doc/danhgia.docx
+2025-04-28 09:37:54,847 - INFO - Processed file doc/hocbong.docx
+2025-04-28 09:37:54,897 - INFO - Processed file doc/cdr.docx
+2025-04-28 09:37:54,932 - INFO - Processed file doc/khaothi.docx
+2025-04-28 09:37:54,955 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 09:37:55,177 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 09:37:55,451 - INFO - Processed file doc/768.docx
+2025-04-28 09:37:55,498 - INFO - Processed file doc/1740.docx
+2025-04-28 09:37:55,561 - INFO - Processed file doc/vanbang.docx
+2025-04-28 09:37:55,562 - INFO - Loaded 52 text chunks
+2025-04-28 09:37:55,562 - INFO - Initializing or loading FAISS index...
+2025-04-28 09:37:55,562 - INFO - Loading FAISS index from cache...
+2025-04-28 09:37:55,573 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 09:44:24,413 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 09:44:24,429 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 09:44:24,429 - INFO - Loading Model...
+2025-04-28 09:44:31,305 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 09:44:31,305 - INFO - Reading documents...
+2025-04-28 09:44:31,417 - INFO - Processed file doc/danhgia.docx
+2025-04-28 09:44:31,489 - INFO - Processed file doc/hocbong.docx
+2025-04-28 09:44:31,492 - INFO - Processed file doc/cdr.docx
+2025-04-28 09:44:31,551 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 09:44:31,572 - INFO - Processed file doc/khaothi.docx
+2025-04-28 09:44:31,764 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 09:44:32,111 - INFO - Processed file doc/768.docx
+2025-04-28 09:44:32,175 - INFO - Processed file doc/1740.docx
+2025-04-28 09:44:32,236 - INFO - Processed file doc/vanbang.docx
+2025-04-28 09:44:32,240 - INFO - Loaded 52 text chunks
+2025-04-28 09:44:32,240 - INFO - Initializing or loading FAISS index...
+2025-04-28 09:44:32,241 - INFO - Loading FAISS index from cache...
+2025-04-28 09:44:32,250 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 10:05:54,709 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 10:05:54,726 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 10:05:54,726 - INFO - Loading Model...
+2025-04-28 10:06:02,157 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 10:06:02,157 - INFO - Reading documents...
+2025-04-28 10:06:02,232 - INFO - Processed file doc/danhgia.docx
+2025-04-28 10:06:02,284 - INFO - Processed file doc/hocbong.docx
+2025-04-28 10:06:02,357 - INFO - Processed file doc/khaothi.docx
+2025-04-28 10:06:02,381 - INFO - Processed file doc/cdr.docx
+2025-04-28 10:06:02,399 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 10:06:02,667 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 10:06:02,983 - INFO - Processed file doc/768.docx
+2025-04-28 10:06:03,000 - INFO - Processed file doc/1740.docx
+2025-04-28 10:06:03,066 - INFO - Processed file doc/vanbang.docx
+2025-04-28 10:06:03,066 - INFO - Loaded 52 text chunks
+2025-04-28 10:06:03,066 - INFO - Initializing or loading FAISS index...
+2025-04-28 10:06:03,066 - INFO - Loading FAISS index from cache...
+2025-04-28 10:06:03,089 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 10:10:34,898 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 10:10:34,898 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 10:10:34,898 - INFO - Loading Model...
+2025-04-28 10:10:40,732 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 10:10:40,732 - INFO - Reading documents...
+2025-04-28 10:10:40,798 - INFO - Processed file doc/danhgia.docx
+2025-04-28 10:10:40,837 - INFO - Processed file doc/hocbong.docx
+2025-04-28 10:10:40,904 - INFO - Processed file doc/khaothi.docx
+2025-04-28 10:10:40,952 - INFO - Processed file doc/cdr.docx
+2025-04-28 10:10:40,967 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 10:10:41,185 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 10:10:41,469 - INFO - Processed file doc/768.docx
+2025-04-28 10:10:41,542 - INFO - Processed file doc/1740.docx
+2025-04-28 10:10:41,585 - INFO - Processed file doc/vanbang.docx
+2025-04-28 10:10:41,585 - INFO - Loaded 52 text chunks
+2025-04-28 10:10:41,585 - INFO - Initializing or loading FAISS index...
+2025-04-28 10:10:41,585 - INFO - Loading FAISS index from cache...
+2025-04-28 10:10:41,607 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 10:19:12,347 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 10:19:12,347 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 10:19:12,347 - INFO - Loading Model...
+2025-04-28 10:19:19,147 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 10:19:19,147 - INFO - Reading documents...
+2025-04-28 10:19:19,301 - INFO - Processed file doc/danhgia.docx
+2025-04-28 10:19:19,364 - INFO - Processed file doc/hocbong.docx
+2025-04-28 10:19:19,371 - INFO - Processed file doc/cdr.docx
+2025-04-28 10:19:19,428 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 10:19:19,451 - INFO - Processed file doc/khaothi.docx
+2025-04-28 10:19:19,646 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 10:19:19,946 - INFO - Processed file doc/768.docx
+2025-04-28 10:19:19,981 - INFO - Processed file doc/1740.docx
+2025-04-28 10:19:20,058 - INFO - Processed file doc/vanbang.docx
+2025-04-28 10:19:20,061 - INFO - Loaded 52 text chunks
+2025-04-28 10:19:20,061 - INFO - Initializing or loading FAISS index...
+2025-04-28 10:19:20,064 - INFO - Loading FAISS index from cache...
+2025-04-28 10:19:20,077 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 10:30:19,371 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 10:30:19,371 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 10:30:19,371 - INFO - Loading Model...
+2025-04-28 10:54:29,315 - INFO - Model loaded successfully. Embedding dimension: 768
+2025-04-28 10:54:29,332 - INFO - Reading documents...
+2025-04-28 10:54:29,860 - INFO - Processed file doc/danhgia.docx
+2025-04-28 10:54:29,902 - INFO - Processed file doc/hocbong.docx
+2025-04-28 10:54:29,948 - INFO - Processed file doc/cdr.docx
+2025-04-28 10:54:29,980 - INFO - Processed file doc/khaothi.docx
+2025-04-28 10:54:30,010 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 10:54:30,264 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 10:54:30,533 - INFO - Processed file doc/768.docx
+2025-04-28 10:54:30,582 - INFO - Processed file doc/1740.docx
+2025-04-28 10:54:30,632 - INFO - Processed file doc/vanbang.docx
+2025-04-28 10:54:30,632 - INFO - Loaded 52 text chunks
+2025-04-28 10:54:30,632 - INFO - Initializing or loading FAISS index...
+2025-04-28 10:54:30,647 - INFO - Loading FAISS index from cache...
+2025-04-28 10:54:30,673 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 10:55:04,409 - ERROR - Error searching: 
+2025-04-28 10:55:39,963 - ERROR - Error searching: 
+2025-04-28 10:56:39,675 - ERROR - Error searching: 
+2025-04-28 10:57:57,865 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 10:57:57,887 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 10:57:57,887 - INFO - Loading Model...
+2025-04-28 10:58:06,255 - INFO - Model loaded successfully. Embedding dimension: 768
+2025-04-28 10:58:06,255 - INFO - Reading documents...
+2025-04-28 10:58:06,348 - INFO - Processed file doc/danhgia.docx
+2025-04-28 10:58:06,388 - INFO - Processed file doc/hocbong.docx
+2025-04-28 10:58:06,432 - INFO - Processed file doc/cdr.docx
+2025-04-28 10:58:06,469 - INFO - Processed file doc/khaothi.docx
+2025-04-28 10:58:06,488 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 10:58:06,659 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 10:58:06,992 - INFO - Processed file doc/768.docx
+2025-04-28 10:58:07,051 - INFO - Processed file doc/1740.docx
+2025-04-28 10:58:07,106 - INFO - Processed file doc/vanbang.docx
+2025-04-28 10:58:07,107 - INFO - Loaded 52 text chunks
+2025-04-28 10:58:07,107 - INFO - Initializing or loading FAISS index...
+2025-04-28 10:58:07,107 - INFO - Loading FAISS index from cache...
+2025-04-28 10:58:07,118 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 10:58:45,127 - ERROR - Error searching: 
+2025-04-28 10:58:55,433 - ERROR - Error searching: 
+2025-04-28 11:00:06,974 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 11:00:06,977 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 11:00:06,978 - INFO - Loading Model...
+2025-04-28 11:00:13,062 - INFO - Model loaded successfully. Embedding dimension: 768
+2025-04-28 11:00:13,062 - INFO - Reading documents...
+2025-04-28 11:00:13,132 - INFO - Processed file doc/danhgia.docx
+2025-04-28 11:00:13,148 - INFO - Processed file doc/hocbong.docx
+2025-04-28 11:00:13,260 - INFO - Processed file doc/cdr.docx
+2025-04-28 11:00:13,285 - INFO - Processed file doc/khaothi.docx
+2025-04-28 11:00:13,305 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 11:00:13,524 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 11:00:13,820 - INFO - Processed file doc/768.docx
+2025-04-28 11:00:13,873 - INFO - Processed file doc/1740.docx
+2025-04-28 11:00:13,931 - INFO - Processed file doc/vanbang.docx
+2025-04-28 11:00:13,932 - INFO - Loaded 52 text chunks
+2025-04-28 11:00:13,932 - INFO - Initializing or loading FAISS index...
+2025-04-28 11:00:13,934 - INFO - Loading FAISS index from cache...
+2025-04-28 11:00:13,948 - INFO - Loaded 52 texts from cache/texts.db
+2025-04-28 11:01:13,099 - ERROR - Error searching: 
+2025-04-28 11:01:19,470 - ERROR - Error searching: 
+2025-04-28 11:03:44,880 - INFO - Model not found at model2vec/. It will be downloaded automatically.
+2025-04-28 11:03:44,880 - INFO - Initialized conversation database at cache/conversations.db
+2025-04-28 11:03:44,880 - INFO - Loading Model...
+2025-04-28 11:03:49,507 - INFO - Model loaded successfully. Embedding dimension: 384
+2025-04-28 11:03:49,507 - INFO - Reading documents...
+2025-04-28 11:03:49,618 - INFO - Processed file doc/cdr.docx
+2025-04-28 11:03:49,688 - INFO - Processed file doc/hocbong.docx
+2025-04-28 11:03:49,689 - INFO - Processed file doc/danhgia.docx
+2025-04-28 11:03:49,753 - INFO - Processed file doc/khaothi.docx
+2025-04-28 11:03:49,753 - INFO - Processed file doc/khenthuong.docx
+2025-04-28 11:03:50,076 - INFO - Processed file doc/thanhtoan.docx
+2025-04-28 11:03:50,307 - INFO - Processed file doc/768.docx
+2025-04-28 11:03:50,363 - INFO - Processed file doc/1740.docx
+2025-04-28 11:03:50,399 - INFO - Processed file doc/vanbang.docx
+2025-04-28 11:03:50,399 - INFO - Loaded 52 text chunks
+2025-04-28 11:03:50,399 - INFO - Initializing or loading FAISS index...
+2025-04-28 11:03:50,399 - INFO - Loading FAISS index from cache...
+2025-04-28 11:03:50,420 - INFO - Loaded 52 texts from cache/texts.db
+2025-05-05 14:53:59,031 - INFO - Initialized conversation database at cache/conversations.db
+2025-05-05 14:53:59,034 - INFO - Initialized LLM cache at cache/llm_cache.pkl
+2025-05-05 14:53:59,034 - INFO - Khởi tạo model...
+2025-05-05 14:54:12,453 - INFO - Model loaded successfully. Using CPU
+2025-05-05 14:54:12,469 - INFO - Đọc tài liệu...
+2025-05-05 14:54:12,640 - INFO - Processed file doc/hocbong.docx: 2 chunks
+2025-05-05 14:54:12,662 - INFO - Processed file doc/khenthuong.docx: 3 chunks
+2025-05-05 14:54:12,709 - INFO - Processed file doc/khaothi.docx: 4 chunks
+2025-05-05 14:54:12,730 - INFO - Processed file doc/danhgia.docx: 4 chunks
+2025-05-05 14:54:12,792 - INFO - Processed file doc/cdr.docx: 6 chunks
+2025-05-05 14:54:12,953 - INFO - Processed file doc/thanhtoan.docx: 2 chunks
+2025-05-05 14:54:13,372 - INFO - Processed file doc/768.docx: 13 chunks
+2025-05-05 14:54:13,394 - INFO - Processed file doc/1740.docx: 12 chunks
+2025-05-05 14:54:13,413 - INFO - Processed file doc/vanbang.docx: 9 chunks
+2025-05-05 14:54:13,426 - INFO - Loaded 55 text chunks
+2025-05-05 14:54:13,426 - INFO - Khởi tạo FAISS index...
+2025-05-05 14:54:13,427 - INFO - Loading FAISS index from cache...
+2025-05-05 14:54:13,432 - ERROR - Error loading index from cache: no such table: texts
+2025-05-05 14:54:13,432 - INFO - Building FAISS index...
+2025-05-05 14:54:18,663 - INFO - Saved 55 texts to cache/texts.db
+2025-05-07 22:17:32,713 - INFO - Initialized conversation database at cache/conversations.db
+2025-05-07 22:17:32,715 - INFO - Khởi tạo model...
+2025-05-07 22:17:57,443 - INFO - Model loaded successfully. Using CPU
+2025-05-07 22:17:57,444 - INFO - Đọc tài liệu...
+2025-05-07 22:17:57,678 - INFO - Processed file doc/hocbong.docx: 3 chunks
+2025-05-07 22:17:57,887 - INFO - Processed file doc/khenthuong.docx: 4 chunks
+2025-05-07 22:17:57,949 - INFO - Processed file doc/khaothi.docx: 5 chunks
+2025-05-07 22:17:57,973 - INFO - Processed file doc/danhgia.docx: 5 chunks
+2025-05-07 22:17:58,120 - INFO - Processed file doc/cdr.docx: 7 chunks
+2025-05-07 22:17:58,288 - INFO - Processed file doc/thanhtoan.docx: 3 chunks
+2025-05-07 22:17:59,136 - INFO - Processed file doc/768.docx: 16 chunks
+2025-05-07 22:17:59,294 - INFO - Processed file doc/1740.docx: 14 chunks
+2025-05-07 22:17:59,361 - INFO - Processed file doc/vanbang.docx: 12 chunks
+2025-05-07 22:17:59,396 - INFO - Loaded 69 text chunks
+2025-05-07 22:17:59,415 - INFO - Khởi tạo FAISS index...
+2025-05-07 22:17:59,445 - INFO - Loading FAISS index from cache...
+2025-05-07 22:17:59,466 - INFO - Loaded 55 texts from cache/texts.db
+2025-05-07 22:18:57,848 - ERROR - Error calling LLM: GenerativeModel.generate_content() got an unexpected keyword argument 'timeout'
+2025-05-07 22:19:01,856 - ERROR - Error calling LLM: GenerativeModel.generate_content() got an unexpected keyword argument 'timeout'
+2025-05-07 22:19:05,862 - ERROR - Error calling LLM: GenerativeModel.generate_content() got an unexpected keyword argument 'timeout'
+2025-05-07 22:19:05,863 - ERROR - Lỗi trong quá trình xử lý: RetryError[<Future at 0x1b0c9e6c640 state=finished raised TypeError>]
+2025-05-07 22:24:19,740 - INFO - Initialized conversation database at cache/conversations.db
+2025-05-07 22:24:19,741 - INFO - Khởi tạo model...
+2025-05-07 22:24:32,704 - INFO - Model loaded successfully. Using CPU
+2025-05-07 22:24:32,704 - INFO - Đọc tài liệu...
+2025-05-07 22:24:32,838 - INFO - Processed file doc/danhgia.docx: 5 chunks
+2025-05-07 22:24:32,926 - INFO - Processed file doc/hocbong.docx: 3 chunks
+2025-05-07 22:24:33,082 - INFO - Processed file doc/khenthuong.docx: 4 chunks
+2025-05-07 22:24:33,143 - INFO - Processed file doc/khaothi.docx: 5 chunks
+2025-05-07 22:24:33,258 - INFO - Processed file doc/cdr.docx: 7 chunks
+2025-05-07 22:24:33,386 - INFO - Processed file doc/thanhtoan.docx: 3 chunks
+2025-05-07 22:24:33,984 - INFO - Processed file doc/768.docx: 16 chunks
+2025-05-07 22:24:34,110 - INFO - Processed file doc/1740.docx: 14 chunks
+2025-05-07 22:24:34,124 - INFO - Processed file doc/vanbang.docx: 12 chunks
+2025-05-07 22:24:34,130 - INFO - Loaded 69 text chunks
+2025-05-07 22:24:34,131 - INFO - Khởi tạo FAISS index...
+2025-05-07 22:24:34,133 - INFO - Loading FAISS index from cache...
+2025-05-07 22:24:34,144 - INFO - Loaded 55 texts from cache/texts.db

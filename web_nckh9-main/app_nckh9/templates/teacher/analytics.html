@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê & Báo cáo - Hệ thống Quản lý điểm rèn luyện</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="{% static 'css/teacher.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="analytics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Common sidebar template for all teacher HTML files -->
+<div class="sidebar">
+    <div class="logo">
+        <h2>Hệ thống QL Điểm RL</h2>
+        <p>Giáo viên</p>
+    </div>
+    <div class="menu">
+        <a href="{% url 'app_nckh9:teacher_dashboard' %}" class="menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Trang chủ</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_class_management' %}" class="menu-item">
+            <i class="fas fa-users"></i>
+            <span>Quản lý lớp học</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_score_management' %}" class="menu-item">
+            <i class="fas fa-tasks"></i>
+            <span>Quản lý điểm rèn luyện</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_analytics' %}" class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Thống kê & Báo cáo</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_notifications' %}" class="menu-item">
+            <i class="fas fa-bell"></i>
+            <span>Quản lý thông báo</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_activity_history' %}" class="menu-item">
+            <i class="fas fa-history"></i>
+            <span>Lịch sử hoạt động</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_ai_assistant' %}" class="menu-item">
+            <i class="fas fa-robot"></i>
+            <span>AI Hỗ trợ</span>
+        </a>
+    
+      
+    </div>
+</div>
+    <!-- Same sidebar as dashboard.html -->
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Thống kê và báo cáo </h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <!-- <img src="avatar-placeholder.jpg" alt="Avatar" class="avatar"> -->
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Replace the KPI Stats Section with: -->
+        <div class="overview-stats">
+            <div class="overview-item total">
+                <i class="fas fa-university"></i>
+                <h4>Tổng số sinh viên</h4>
+                <div class="value">125</div>
+                <small>100% tổng số sinh viên</small>
+            </div>
+            
+            <div class="overview-item excellent">
+                <i class="fas fa-crown"></i>
+                <h4>Sinh viên Xuất sắc</h4>
+                <div class="value">15</div>
+                <small>12% tổng số sinh viên</small>
+            </div>
+            
+            <div class="overview-item good">
+                <i class="fas fa-medal"></i>
+                <h4>Sinh viên Giỏi</h4>
+                <div class="value">42</div>
+                <small>33.6% tổng số sinh viên</small>
+            </div>
+            
+            <div class="overview-item fair">
+                <i class="fas fa-award"></i>
+                <h4>Sinh viên Khá</h4>
+                <div class="value">55</div>
+                <small>44% tổng số sinh viên</small>
+            </div>
+
+            <div class="overview-item needs-improvement">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>Cần cải thiện</h4>
+                <div class="value">13</div>
+                <small>10.4% tổng số sinh viên</small>
+            </div>
+        </div>
+
+        <!-- Remove or comment out the old KPI section -->
+        <!-- <div class="kpi-section">...</div> -->
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Phân bố điểm rèn luyện</h3>
+                <div class="chart-container pie-chart">
+                    <canvas id="gradeDistributionPie"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Xu hướng điểm theo thời gian</h3>
+                <div class="chart-container line-chart">
+                    <canvas id="scoreTrendLine"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Phân tích theo tiêu chí</h3>
+                <div class="chart-container radar-chart">
+                    <canvas id="criteriaRadar"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>So sánh giữa các lớp</h3>
+                <div class="chart-container bar-chart">
+                    <canvas id="classComparisonBar"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card full-width">
+                <h3>Phân bố chi tiết theo thời gian</h3>
+                <div class="chart-container">
+                    <canvas id="detailedScoreStack"></canvas>
+                </div>
+            </div>
+
+           
+            
+        </div>
+    </div>
+
+    <script src="analytics.js"></script>
+</body>
+</html>

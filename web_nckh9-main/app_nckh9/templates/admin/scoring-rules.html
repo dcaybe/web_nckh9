@@ -1,0 +1,455 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quy tắc chấm điểm - Hệ thống Trang chủ</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+    <script src="scoring-rules.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Hệ thống QL Điểm RL</h2>
+            <p>Giáo vụ khoa</p>
+        </div>
+        <div class="menu">
+            <a href="{% url 'app_nckh9:admin_dashboard' %}" class="menu-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_scoring_rules' %}" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                <span>Quy tắc chấm điểm</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_batch_approval' %}" class="menu-item">
+                <i class="fas fa-check-double"></i>
+                <span>Phê duyệt hàng loạt</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_statistics' %}" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê & Báo cáo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_sync' %}" class="menu-item">
+                <i class="fas fa-sync"></i>
+                <span>Đồng bộ dữ liệu</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_user_management' %}" class="menu-item">
+                <i class="fas fa-users-cog"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_notifications' %}" class="menu-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Quản lý thông báo</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_activity_history' %}" class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Lịch sử hoạt động</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_backup_restore' %}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Sao lưu & Khôi phục</span>
+            </a>
+            <a href="{% url 'app_nckh9:admin_ai_assistant' %}" class="menu-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Hỗ trợ</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Quy tắc chấm điểm</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add global edit controls here -->
+        <div class="rules-header">
+            <div class="global-actions">
+                <button class="btn btn-edit" onclick="toggleEditMode()">
+                    <i class="fas fa-edit"></i> Chỉnh sửa quy tắc chấm điểm
+                </button>
+                <div class="edit-actions" style="display: none;">
+                    <button class="btn btn-save" onclick="saveChanges()">
+                        <i class="fas fa-save"></i> Lưu thay đổi
+                    </button>
+                    <button class="btn btn-restore" onclick="restoreDefaults()">
+                        <i class="fas fa-undo"></i> Khôi phục mặc định
+                    </button>
+                    <button class="btn btn-cancel" onclick="cancelEdit()">
+                        <i class="fas fa-times"></i> Hủy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="rules-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="section-title-content">
+                            I. Đánh giá về ý thức và kết quả học tập
+                        </div>
+                        <span class="points">(Tổng điểm: 0 - 30 điểm)</span>
+                    </h2>
+                </div>
+
+                <div class="rule-section">
+                    <h3>1. Phần cộng điểm</h3>
+                    <p class="note">Tổng điểm có thể chấm quá 30 khi SV đạt giải NCKH, thi Olimpic cấp Bộ hoặc cấp Quốc gia</p>
+
+                    <div class="sub-section">
+                        <h4>Kết quả học tập:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm TBCHT ≥ 3,6:</span>
+                                <span class="points" data-original="+20">+20đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm TBCHT từ 3,2 đến 3,59:</span>
+                                <span class="points" data-original="+18">+18đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm TBCHT từ 2,5 đến 3,19:</span>
+                                <span class="points" data-original="+16">+16đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm TBCHT từ 2,0 đến 2,49:</span>
+                                <span class="points" data-original="+12">+12đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm TBCHT từ 1,5 đến 1,99:</span>
+                                <span class="points" data-original="+10">+10đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm TBCHT từ 1,0 đến 1,49:</span>
+                                <span class="points" data-original="+8">+8đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>Nghiên cứu khoa học, thi Olympic, Robocon và các cuộc thi khác:</h4>
+                        <p class="note">Cộng điểm thưởng theo QĐ số 2311/QĐ-MĐC ngày 25/12/2023 về KHCN, sinh viên được cộng dồn điểm thưởng</p>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Đạt giải NCKH cấp Bộ và giải tương đương tối đa:</span>
+                                <span class="points" data-original="+8">+8đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Đạt giải NCKH cấp Trường, Tiểu ban chuyên môn tối đa:</span>
+                                <span class="points" data-original="+6">+6đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Đạt giải NCKH khác tối đa:</span>
+                                <span class="points" data-original="+6">+6đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Đạt giải Olympic cấp Quốc gia tối đa:</span>
+                                <span class="points" data-original="+10">+10đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Tham gia Olympic cấp Quốc gia tối đa:</span>
+                                <span class="points" data-original="+6">+6đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Đạt giải Olympic cấp Trường tối đa:</span>
+                                <span class="points" data-original="+5">+5đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Tham gia Olympic cấp Trường/NCKH cấp Trường:</span>
+                                <span class="points" data-original="+2">+2đ/3đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>c) Việc thực hiện nội quy học tập, quy chế thi, kiểm tra:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Không vi phạm quy chế thi, kiểm tra:</span>
+                                <span class="points" data-original="+3">+3đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Đi học đầy đủ, đúng giờ:</span>
+                                <span class="points" data-original="+2">+2đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <ul class="score-list negative">
+                            <li class="editable-rule">
+                                <span class="rule-name">Đã đăng ký, nhưng bỏ không tham tham gia nghiên cứu khoa học, thi Olympic, Robocon và các cuộc thi khác tương đương:</span>
+                                <span class="points" data-original="-15">-15đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Không đi học, đi không đúng giờ:</span>
+                                <span class="points" data-original="-2">-2đ/buổi</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add new section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="section-title-content">
+                            II. Đánh giá về ý thức và kết quả chấp hành nội quy, quy chế của Trường
+                        </div>
+                        <span class="points">(Tổng điểm: 0 - 25 điểm)</span>
+                    </h2>
+                </div>
+
+                <div class="rule-section">
+                    <h3>1. Phần cộng điểm</h3>
+
+                    <div class="sub-section">
+                        <h4>a) Chấp hành nội quy:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Chấp hành tốt nội quy, quy chế của Trường, không vi phạm kỷ luật:</span>
+                                <span class="points" data-original="+10">+10đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Kết quả Tuần sinh hoạt công dân sinh viên:</h4>
+                        <p class="note">Có giá trị trong năm học 2023-2024</p>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm bài thu hoạch ≥ 90:</span>
+                                <span class="points" data-original="+15">+15đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm bài thu hoạch từ 65 đến 89 điểm:</span>
+                                <span class="points" data-original="+10">+10đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Điểm bài thu hoạch từ 50 đến 65 điểm:</span>
+                                <span class="points" data-original="+5">+5đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <ul class="score-list negative">
+                            <li class="editable-rule">
+                                <span class="rule-name">Không tham gia học tập đầy đủ, nghiêm túc nghị quyết, nội quy, quy chế, tuần sinh hoạt công dân sinh viên:</span>
+                                <span class="points" data-original="-10">-10đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Không đeo thẻ sinh viên trong khuôn viên Trường:</span>
+                                <span class="points" data-original="-5">-5đ/lần</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Không tham gia các buổi sinh hoạt lớp, họp, hội nghị, giao ban, tập huấn và các hoạt động khác khi Nhà trường yêu cầu:</span>
+                                <span class="points" data-original="-5">-5đ/lần</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Đóng học phí không đúng quy định trong học kỳ:</span>
+                                <span class="points" data-original="-10">-10đ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section III -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        <div class="section-title-content">
+                            III. Đánh giá về ý thức và kết quả tham gia các hoạt động chính trị, xã hội, văn hoá, văn nghệ, thể thao, phòng chống các tệ nạn xã hội
+                        </div>
+                        <span class="points">(Tổng điểm: 0 - 20 điểm)</span>
+                    </h2>
+                    <div class="header-actions">
+                        <!-- ...same header actions as other sections... -->
+                    </div>
+                </div>
+
+                <div class="rule-section">
+                    <h3>1. Phần cộng điểm</h3>
+                    
+                    <div class="sub-section">
+                        <h4>a) Tham gia hoạt động:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Tham gia đầy đủ các hoạt động, sinh hoạt do Trường, Khoa, Lớp, Đoàn TN, Hội SV tổ chức:</span>
+                                <span class="points" data-original="+13">+13đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Thành tích hoạt động:</h4>
+                        <p class="note">Lấy mức khen thưởng cao nhất - có minh chứng kèm theo</p>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Cấp Trường:</span>
+                                <span class="points" data-original="+3">+3đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Cấp tỉnh, thành phố trở lên:</span>
+                                <span class="points" data-original="+5">+5đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>c) Hoạt động tư vấn:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Tham gia các hoạt động tư vấn tuyển sinh (có xác nhận của phòng QHCC&DN):</span>
+                                <span class="points" data-original="+2">+2đ/lần</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <ul class="score-list negative">
+                            <li class="editable-rule">
+                                <span class="rule-name">Không tham gia hoạt động, sinh hoạt khi được phân công:</span>
+                                <span class="points" data-original="-5">-5đ/lần</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Vi phạm Quy định về văn hoá học đường cho sinh viên:</span>
+                                <span class="points" data-original="-5">-5đ/lần</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section IV -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i>
+                        <div class="section-title-content">
+                            IV. Đánh giá về phẩm chất công dân và quan hệ công đồng
+                        </div>
+                        <span class="points">(Tổng điểm: 0 - 15 điểm)</span>
+                    </h2>
+                    <div class="header-actions">
+                        <!-- ...same header actions as other sections... -->
+                    </div>
+                </div>
+
+                <div class="rule-section">
+                    <h3>1. Phần cộng điểm</h3>
+
+                    <div class="sub-section">
+                        <h4>a) Ý thức công dân:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Tích cực tham gia học tập, tìm hiểu và chấp hành tốt chủ trương của Đảng, chính sách, pháp luật của Nhà nước:</span>
+                                <span class="points" data-original="+10">+10đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Hoạt động cộng đồng:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Tích cực tham gia các hoạt động nhân đạo, từ thiện vì cộng đồng; phong trào thanh niên tình nguyện; phong trào giúp đỡ nhân dân và bạn bè khi gặp thiên tai, khó khăn, hoạn nạn (có minh chứng kèm theo):</span>
+                                <span class="points" data-original="+5">+5đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <ul class="score-list negative">
+                            <li class="editable-rule">
+                                <span class="rule-name">Gây mất đoàn kết trong tập thể lớp:</span>
+                                <span class="points" data-original="-5">-5đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Không đóng BHYT đúng hạn:</span>
+                                <span class="points" data-original="-20">-20đ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Section V after Section IV -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-user-tie"></i>
+                        <div class="section-title-content">
+                            V. Đánh giá về ý thức và kết quả tham gia phụ trách lớp, các đoàn thể tổ chức khác trong Trường
+                        </div>
+                        <span class="points">(Tổng điểm: 0 - 10 điểm)</span>
+                    </h2>
+                    <p class="note">Mục này dành cho SV là thành viên Ban cán sự lớp quản lý sinh viên; cán bộ Đoàn TN, Hội SV</p>
+                    <div class="header-actions">
+                        <!-- ...same header actions as other sections... -->
+                    </div>
+                </div>
+
+                <div class="rule-section">
+                    <h3>1. Phần cộng điểm</h3>
+
+                    <div class="sub-section">
+                        <h4>a) Chức vụ và hoàn thành nhiệm vụ:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Lớp trưởng, Phó Bí thư Liên chi, Bí thư Chi đoàn:</span>
+                                <span class="points" data-original="+7">+7đ</span>
+                            </li>
+                            <li class="editable-rule">
+                                <span class="rule-name">Lớp phó, Phó Bí thư Chi đoàn, Hội trưởng Hội SV:</span>
+                                <span class="points" data-original="+5">+5đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>b) Khen thưởng:</h4>
+                        <ul class="score-list">
+                            <li class="editable-rule">
+                                <span class="rule-name">Được các cấp khen thưởng (có minh chứng kèm theo):</span>
+                                <span class="points" data-original="+3">+3đ</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>2. Phần trừ điểm</h3>
+                        <ul class="score-list negative">
+                            <li class="editable-rule">
+                                <span class="rule-name">Là thành viên Ban cán sự lớp quản lý sinh viên; cán bộ Đoàn TN, Hội SV thiếu trách nhiệm (bị GVCN hoặc cấp có thẩm quyền kỉ luật bằng văn bản):</span>
+                                <span class="points" data-original="-5">-5đ/lần</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

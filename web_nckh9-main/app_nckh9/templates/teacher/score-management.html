@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý điểm rèn luyện - Hệ thống Quản lý điểm rèn luyện</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/teacher.css' %}" rel="stylesheet"> 
+    <script src="score-management.js" defer></script>
+</head>
+<body>
+    <!-- Common sidebar template for all teacher HTML files -->
+<div class="sidebar">
+    <div class="logo">
+        <h2>Hệ thống QL Điểm RL</h2>
+        <p>Giáo viên</p>
+    </div>
+    <div class="menu">
+        <a href="{% url 'app_nckh9:teacher_dashboard' %}" class="menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Trang chủ</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_class_management' %}" class="menu-item">
+            <i class="fas fa-users"></i>
+            <span>Quản lý lớp học</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_score_management' %}" class="menu-item">
+            <i class="fas fa-tasks"></i>
+            <span>Quản lý điểm rèn luyện</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_analytics' %}" class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Thống kê & Báo cáo</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_notifications' %}" class="menu-item">
+            <i class="fas fa-bell"></i>
+            <span>Quản lý thông báo</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_activity_history' %}" class="menu-item">
+            <i class="fas fa-history"></i>
+            <span>Lịch sử hoạt động</span>
+        </a>
+        <a href="{% url 'app_nckh9:teacher_ai_assistant' %}" class="menu-item">
+            <i class="fas fa-robot"></i>
+            <span>AI Hỗ trợ</span>
+        </a>
+    
+      
+    </div>
+</div>
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Quản lý điểm rèn luyện </h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <!-- <img src="avatar-placeholder.jpg" alt="Avatar" class="avatar"> -->
+                    <span>Nguyễn Văn A</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="score-management-container">
+            <div class="filters-card card">
+                <div class="filter-header">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Tìm kiếm sinh viên...">
+                        </div>
+                        <button class="btn btn-primary bulk-action">
+                            <i class="fas fa-plus"></i>
+                            <span>Chấm điểm hàng loạt</span>
+                        </button>
+                </div>
+                <div class="filter-grid">
+                    <div class="filter-group">
+                        <label>Lớp học</label>
+                        <select id="classFilter" class="form-select">
+                            <option value="">Tất cả lớp</option>
+                            <option value="CNTT2021">CNTT2021</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Trạng thái</label>
+                        <select id="statusFilter" class="form-select">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="pending">Chưa chấm</option>
+                            <option value="scored">Đã chấm</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Khoảng điểm</label>
+                        <div class="score-range">
+                            <input type="number" placeholder="Từ" min="0" max="100">
+                            <span>-</span>
+                            <input type="number" placeholder="Đến" min="0" max="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-list-card card">
+                <div class="table-header">
+                    <div class="selected-count">
+                        <span>0</span> sinh viên được chọn
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-download"></i> Xuất Excel
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-print"></i> In danh sách
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="student-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>MSSV</th>
+                                <th>Họ và tên</th>
+                                <th>Lớp</th>
+                                <th>Điểm RL</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Will be populated by JavaScript -->
+                            <tr>
+                                <td>
+                                    <label class="checkbox-wrapper">
+                                        <input type="checkbox" class="student-select" data-id="${student.id}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td>1900299</td>
+                                <td>
+                                    <div class="student-name-cell">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Trần Văn A    </span>
+                                    </div>
+                                </td>
+                                <td>CNTT2021</td>
+                                <td>85</td>
+                                <td><span class="status-badge scored">Đã chấm</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-history"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <label class="checkbox-wrapper">
+                                        <input type="checkbox" class="student-select">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td>1900300</td>
+                                <td>
+                                    <div class="student-name-cell">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Nguyễn Thị B</span>
+                                    </div>
+                                </td>
+                                <td>CNTT2021</td>
+                                <td>90</td>
+                                <td><span class="status-badge scored">Đã chấm</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-history"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label class="checkbox-wrapper">
+                                        <input type="checkbox" class="student-select">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td>1900301</td>
+                                <td>
+                                    <div class="student-name-cell">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Lê Thị C</span>
+                                    </div>
+                                </td>
+                                <td>CNTT2021</td>
+                                <td>-</td>
+                                <td><span class="status-badge pending">Chưa chấm</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-history"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label class="checkbox-wrapper">
+                                        <input type="checkbox" class="student-select">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td>1900302</td>
+                                <td>
+                                    <div class="student-name-cell">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Phạm Văn D</span>
+                                    </div>
+                                </td>
+                                <td>CNTT2021</td>
+                                <td>75</td>
+                                <td><span class="status-badge scored">Đã chấm</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-history"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label class="checkbox-wrapper">
+                                        <input type="checkbox" class="student-select">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td>1900303</td>
+                                <td>
+                                    <div class="student-name-cell">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>Hoàng Văn E</span>
+                                    </div>
+                                </td>
+                                <td>CNTT2021</td>
+                                <td>-</td>
+                                <td><span class="status-badge pending">Chưa chấm</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-history"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="btn-page" disabled><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn-page active">1</button>
+                        <button class="btn-page">2</button>
+                        <button class="btn-page">3</button>
+                        <button class="btn-page"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Scoring Modal -->
+        
+    </div>
+</body>
+</html>
