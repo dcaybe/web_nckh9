@@ -1,6 +1,5 @@
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-import sqlite3
 from datetime import datetime
 import hashlib
 import pickle
@@ -19,15 +18,10 @@ from tqdm import tqdm
 from docx import Document
 from transformers import AutoTokenizer, AutoModel
 import torch
-import requests
 from tenacity import retry, stop_after_attempt, wait_exponential
 import nltk
 from nltk.tokenize import sent_tokenize
 import re
-from functools import lru_cache
-
-# Download NLTK data
-nltk.download('punkt', quiet=True)
 
 # === LOGGING SETUP ===
 logging.basicConfig(
@@ -51,12 +45,12 @@ def load_config() -> Dict[str, Any]:
         "top_k": 4,
         "chunk_size": 1000,
         "min_text_length": 30,
-        "max_workers": 8,  # Tăng số lượng workers
+        "max_workers": 8,
         "faiss_nlist": 10,
-        "conversation_db": "cache/conversations.db",
-        "max_context_messages": 5,
-        "llm_cache_size": 1000,  # Cache size cho LLM responses
-        "batch_size": 32  # Batch size cho xử lý embeddings
+        "llm_cache_size": 1000,
+        "batch_size": 32,
+        "retry_attempts": 3,
+        "retry_delay": 1
     }
     
     try:
@@ -74,9 +68,7 @@ CONFIG = load_config()
 # === FILE PATHS ===
 MODEL_PATH = os.path.join(CONFIG['model_folder'], 'pytorch_model.bin')
 INDEX_PATH = os.path.join(CONFIG['cache_dir'], 'faiss.index')
-TEXTS_DB_PATH = os.path.join(CONFIG['cache_dir'], 'texts.db')
 EMBEDDINGS_PATH = os.path.join(CONFIG['cache_dir'], 'vectors.npy')
-CONVERSATION_DB_PATH = CONFIG['conversation_db']
 LLM_CACHE_PATH = os.path.join(CONFIG['cache_dir'], 'llm_cache.pkl')
 
 # === BLACKLIST KEYWORDS ===
@@ -193,14 +185,12 @@ class Model2VecEmbedder:
 # === AUTO SETUP ===
 def auto_setup() -> None:
     """Create necessary directories and initialize components."""
-    dirs = [CONFIG['doc_folder'], CONFIG['model_folder'], CONFIG['cache_dir'], 
-            os.path.dirname(CONVERSATION_DB_PATH)]
+    dirs = [CONFIG['doc_folder'], CONFIG['model_folder'], CONFIG['cache_dir']]
     for d in dirs:
         if not os.path.exists(d):
             os.makedirs(d)
             logger.info(f"Created directory {d}")
-
-    init_conversation_db()
+    
     init_llm_cache()
 
 def init_llm_cache() -> None:
@@ -209,96 +199,6 @@ def init_llm_cache() -> None:
         with open(LLM_CACHE_PATH, 'wb') as f:
             pickle.dump({}, f)
         logger.info(f"Initialized LLM cache at {LLM_CACHE_PATH}")
-
-# === CONVERSATION DATABASE ===
-def init_conversation_db() -> None:
-    """Initialize SQLite database with indexes for faster queries."""
-    try:
-        conn = sqlite3.connect(CONVERSATION_DB_PATH)
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS topics (
-            topic_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            topic_name TEXT UNIQUE NOT NULL
-        )''')
-        c.execute('''CREATE TABLE IF NOT EXISTS conversations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            topic_id INTEGER,
-            question TEXT NOT NULL,
-            answer TEXT NOT NULL,
-            timestamp TEXT NOT NULL,
-            FOREIGN KEY (topic_id) REFERENCES topics (topic_id)
-        )''')
-        # Add indexes for better performance
-        c.execute('CREATE INDEX IF NOT EXISTS idx_topic_id ON conversations(topic_id)')
-        c.execute('CREATE INDEX IF NOT EXISTS idx_timestamp ON conversations(timestamp)')
-        conn.commit()
-        logger.info(f"Initialized conversation database at {CONVERSATION_DB_PATH}")
-    except Exception as e:
-        logger.error(f"Error initializing conversation database: {e}")
-        raise
-    finally:
-        conn.close()
-
-# === OPTIMIZE DATABASE OPERATIONS ===
-def get_db_connection():
-    """Create a new database connection with optimized settings."""
-    conn = sqlite3.connect(CONVERSATION_DB_PATH)
-    conn.execute('PRAGMA journal_mode=WAL')  # Write-Ahead Logging for better concurrency
-    conn.execute('PRAGMA synchronous=NORMAL')  # Faster writes with reasonable safety
-    return conn
-
-def add_topic(topic_name: str) -> int:
-    """Add a new topic to the database and return its ID."""
-    conn = get_db_connection()
-    try:
-        c = conn.cursor()
-        c.execute('INSERT OR IGNORE INTO topics (topic_name) VALUES (?)', (topic_name,))
-        c.execute('SELECT topic_id FROM topics WHERE topic_name = ?', (topic_name,))
-        topic_id = c.fetchone()[0]
-        conn.commit()
-        return topic_id
-    finally:
-        conn.close()
-
-def save_conversation(topic_id: int, question: str, answer: str) -> None:
-    """Save a question-answer pair to the conversation database."""
-    conn = get_db_connection()
-    try:
-        c = conn.cursor()
-        timestamp = datetime.now().isoformat()
-        c.execute('''INSERT INTO conversations 
-                    (topic_id, question, answer, timestamp) 
-                    VALUES (?, ?, ?, ?)''',
-                 (topic_id, question, answer, timestamp))
-        conn.commit()
-    finally:
-        conn.close()
-
-def get_conversation_history(topic_id: int) -> List[Dict[str, str]]:
-    """Retrieve conversation history for a given topic."""
-    conn = get_db_connection()
-    try:
-        c = conn.cursor()
-        c.execute('''SELECT question, answer, timestamp 
-                    FROM conversations 
-                    WHERE topic_id = ? 
-                    ORDER BY timestamp DESC 
-                    LIMIT 50''', (topic_id,))
-        return [{"question": q, "answer": a, "timestamp": t} 
-                for q, a, t in c.fetchall()]
-    finally:
-        conn.close()
-
-def list_topics() -> List[Dict[str, Any]]:
-    """List all available topics."""
-    conn = get_db_connection()
-    try:
-        c = conn.cursor()
-        c.execute('SELECT topic_id, topic_name FROM topics')
-        return [{"topic_id": tid, "topic_name": name} 
-                for tid, name in c.fetchall()]
-    finally:
-        conn.close()
 
 # === OPTIMIZED DOCUMENT PROCESSING ===
 def process_document(file_path: str, queue: Queue) -> None:
@@ -364,50 +264,22 @@ def load_documents(folder: str) -> List[str]:
     
     return chunks
 
-# === OPTIMIZED TEXT DATABASE ===
-def save_texts_to_db(texts: List[str], db_path: str) -> None:
-    """Save texts to SQLite database with batch processing."""
-    conn = get_db_connection()
-    try:
-        c = conn.cursor()
-        c.execute('CREATE TABLE IF NOT EXISTS texts (id INTEGER PRIMARY KEY, text TEXT)')
-        c.execute('BEGIN TRANSACTION')
-        c.executemany('INSERT INTO texts (text) VALUES (?)',
-                     [(t,) for t in texts])
-        conn.commit()
-        logger.info(f"Saved {len(texts)} texts to {db_path}")
-    except Exception as e:
-        conn.rollback()
-        logger.error(f"Error saving texts to database: {e}")
-        raise
-    finally:
-        conn.close()
-
-def load_texts_from_db(db_path: str) -> List[str]:
-    """Load texts from SQLite database efficiently."""
-    conn = get_db_connection()
-    try:
-        c = conn.cursor()
-        c.execute('SELECT text FROM texts ORDER BY id')
-        texts = [row[0] for row in c.fetchall()]
-        logger.info(f"Loaded {len(texts)} texts from {db_path}")
-        return texts
-    finally:
-        conn.close()
-
 # === OPTIMIZED INDEX OPERATIONS ===
 def build_or_load_index(embedder: Model2VecEmbedder, texts: List[str]) -> Tuple[faiss.Index, List[str], np.ndarray]:
     """Build or load FAISS index with batched processing."""
-    if all(os.path.exists(p) for p in [INDEX_PATH, TEXTS_DB_PATH, EMBEDDINGS_PATH]):
+    texts_path = os.path.join(CONFIG['cache_dir'], 'texts.pkl')
+    
+    if all(os.path.exists(p) for p in [INDEX_PATH, EMBEDDINGS_PATH, texts_path]):
         try:
             logger.info("Loading FAISS index from cache...")
-            texts = load_texts_from_db(TEXTS_DB_PATH)
+            with open(texts_path, 'rb') as f:
+                cached_texts = pickle.load(f)
             vectors = np.load(EMBEDDINGS_PATH, mmap_mode='r')  # Memory-mapped file
             index = faiss.read_index(INDEX_PATH)
             if torch.cuda.is_available():
                 res = faiss.StandardGpuResources()
                 index = faiss.index_cpu_to_gpu(res, 0, index)
-            return index, texts, vectors
+            return index, cached_texts, vectors
         except Exception as e:
             logger.error(f"Error loading index from cache: {e}")
 
@@ -441,8 +313,9 @@ def build_or_load_index(embedder: Model2VecEmbedder, texts: List[str]) -> Tuple[
         if torch.cuda.is_available():
             index = faiss.index_gpu_to_cpu(index)
         faiss.write_index(index, INDEX_PATH)
-        save_texts_to_db(texts, TEXTS_DB_PATH)
         np.save(EMBEDDINGS_PATH, vectors)
+        with open(texts_path, 'wb') as f:
+            pickle.dump(texts, f)
         
         # Convert back to GPU if needed
         if torch.cuda.is_available():
@@ -572,30 +445,6 @@ def ask_llm(prompt: str) -> str:
         logger.error(f"Error calling LLM: {e}")
         raise
 
-# === OPTIMIZED CONTEXT MEMORY ===
-class ContextMemory:
-    """Enhanced context memory with size limits and cleanup."""
-    def __init__(self, max_messages: int):
-        self.max_messages = max_messages
-        self.messages = []
-        self.total_chars = 0
-        self.max_chars = 16000  # Prevent context from becoming too large
-    
-    def add_message(self, question: str, answer: str) -> None:
-        """Add a message while maintaining size limits."""
-        msg_chars = len(question) + len(answer)
-        while self.messages and (len(self.messages) >= self.max_messages or 
-                               self.total_chars + msg_chars > self.max_chars):
-            old_q, old_a = self.messages.pop(0)
-            self.total_chars -= len(old_q) + len(old_a)
-        
-        self.messages.append((question, answer))
-        self.total_chars += msg_chars
-    
-    def get_context(self) -> str:
-        """Generate optimized context string with importance weighting."""
-        if not self.messages:
-            return ""
             
         context = []
         # Use full context of last message for direct continuity
@@ -627,9 +476,8 @@ def filter_sensitive_content(query: str) -> Tuple[bool, str]:
     return True, ""
 
 # === MAIN CHAT FUNCTION ===
-def chat(query: str, embedder: Model2VecEmbedder, index: faiss.Index, texts: List[str], 
-         topic_id: int, context_memory: ContextMemory) -> str:
-    """Optimized chat function with enhanced context handling."""
+def chat(query: str, embedder: Model2VecEmbedder, index: faiss.Index, texts: List[str]) -> str:
+    """Optimized chat function without context memory."""
     try:
         # Kiểm tra nội dung
         is_appropriate, message = filter_sensitive_content(query)
@@ -642,11 +490,7 @@ def chat(query: str, embedder: Model2VecEmbedder, index: faiss.Index, texts: Lis
             return "Xin lỗi, tôi không tìm thấy thông tin liên quan trong tài liệu được cung cấp."
 
         # Tạo prompt với template tối ưu
-        context = context_memory.get_context()
         prompt = f"""Vai trò: Bạn là một trợ lý AI chuyên nghiệp, thông minh và hữu ích.
-
-Ngữ cảnh cuộc hội thoại:
-{context}
 
 Thông tin tham khảo từ tài liệu:
 {' '.join(contexts)}
@@ -659,15 +503,12 @@ Yêu cầu:
    - Chính xác và phù hợp với thông tin trong tài liệu
    - Ngắn gọn, súc tích (tối đa 3-4 câu cho mỗi ý chính)
    - Có cấu trúc rõ ràng nếu cần liệt kê nhiều điểm
-3. Kết nối thông tin với ngữ cảnh cuộc hội thoại trước đó nếu liên quan
-4. Không thêm thông tin ngoài tài liệu tham khảo
+3. Không thêm thông tin ngoài tài liệu tham khảo
 
 Trả lời:"""
 
-        # Gọi API và lưu kết quả
+        # Gọi API
         answer = ask_llm(prompt)
-        save_conversation(topic_id, query, answer)
-        context_memory.add_message(query, answer)
         return answer
 
     except Exception as e:
@@ -690,25 +531,8 @@ def main():
 
         logger.info("Khởi tạo FAISS index...")
         index, texts, _ = build_or_load_index(embedder, texts)
-        context_memory = ContextMemory(CONFIG['max_context_messages'])
 
         print("\n💬 Sẵn sàng trò chuyện! Gõ 'exit' để thoát.")
-        
-        topics = list_topics()
-        if topics:
-            print("\nCác chủ đề hiện có:")
-            for topic in topics:
-                print(f"{topic['topic_id']}. {topic['topic_name']}")
-        
-        topic_name = input("\nNhập tên chủ đề mới hoặc chọn chủ đề hiện có (nhập số ID hoặc tên): ").strip()
-        if topic_name.isdigit() and any(t['topic_id'] == int(topic_name) for t in topics):
-            topic_id = int(topic_name)
-            topic_name = next(t['topic_name'] for t in topics if t['topic_id'] == topic_id)
-        else:
-            topic_id = add_topic(topic_name)
-        
-        print(f"\nĐang trò chuyện trong chủ đề: {topic_name}")
-        print("Gõ 'history' để xem lịch sử trò chuyện trong chủ đề này.")
 
         while True:
             try:
@@ -717,20 +541,8 @@ def main():
                     break
                 if not query:
                     continue
-                if query.lower() == "history":
-                    history = get_conversation_history(topic_id)
-                    if not history:
-                        print("Chưa có lịch sử trò chuyện trong chủ đề này.")
-                    else:
-                        print("\n=== Lịch sử trò chuyện ===")
-                        for entry in history:
-                            print(f"\nQ: {entry['question']}")
-                            print(f"A: {entry['answer']}")
-                            print(f"Thời gian: {entry['timestamp']}")
-                            print("-" * 50)
-                    continue
 
-                answer = chat(query, embedder, index, texts, topic_id, context_memory)
+                answer = chat(query, embedder, index, texts)
                 print(f"\n🤖 {answer}")
 
             except KeyboardInterrupt:
